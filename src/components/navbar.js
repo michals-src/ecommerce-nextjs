@@ -77,7 +77,7 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
   });
 
   const inputClasses = classNames(
-    "flex flex-row flex-nowrap rounded-3xl bg-gray-100 cursor-text",
+    "flex flex-row flex-nowrap rounded-sm bg-gray-100 cursor-text",
     {
       "bg-gray-300": SearchInputFocus,
       "hover:bg-gray-200": !SearchInputFocus,
