@@ -32,7 +32,7 @@ const useSearch = () => {
 
     const bodyClass = "overflow-y-hidden";
 
-    if (SearchVisible) {
+    if (!SearchVisible) {
       document.body.classList.add(bodyClass);
       return;
     }
@@ -222,7 +222,7 @@ const MobileNavigation = ({
 const DesktopNavigation = () => {
   return (
     <div className='hidden lg:block'>
-      <ul className='list-none flex flex-row items-center font-montserrat space-x-5'>
+      <ul className='list-none flex flex-row items-center font-montserrat space-x-4'>
         <MenuItem url='#' label='Liście' />
         <MenuItem url='#' label='Urządzenia' />
         <MenuItem url='#' label='Akcesoria' />
@@ -260,7 +260,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className='flex flex-row flex-nowrap'>
+      <div className='flex flex-row flex-nowrap border-b border-b-gray-300'>
         <div className='container mx-auto px-6 lg:px-2 py-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='navbar-logo'>
@@ -268,9 +268,17 @@ const Navbar = () => {
                 <a className='text-2xl font-bold'>Nazwa.</a>
               </Link>
             </div>
+            <div className='flex flex-row flex-wrap flex-1 xl:flex-initial ml-8 xl:ml-0 self-end'>
+              <MobileNavigation
+                MobileNavbar={MobileNavbar}
+                setMobileNavbar={setMobileNavbar}
+                handleSearchClick={handleSearchClick}
+              />
+              <DesktopNavigation />
+            </div>
             <div className='flex flex-row flex-nowrap'>
-              <ul className='list-none flex flex-row items-center space-x-4 lg:space-x-6'>
-                <li className='cursor-text hidden lg:block'>
+              <ul className='list-none flex flex-row items-center space-x-4 lg:space-x-6 relative'>
+                <li className='cursor-text hidden lg:block absolute right-0 mr-[100%]'>
                   <SearchWrapper handleSearchClick={handleSearchClick} />
                 </li>
                 <li className='cursor-pointer'>
@@ -313,18 +321,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className='border-b border-b-gray-300 py-3'>
-        <div className='container mx-auto px-6 lg:px-2'>
-          <div className='flex flex-row flex-wrap'>
-            <MobileNavigation
-              MobileNavbar={MobileNavbar}
-              setMobileNavbar={setMobileNavbar}
-              handleSearchClick={handleSearchClick}
-            />
-            <DesktopNavigation />
-          </div>
-        </div>
-      </div>
       <Search
         ref={searchInput}
         visible={SearchVisible}
@@ -345,7 +341,7 @@ const MenuItem = ({ url, label }) => {
   return (
     <li className='tracking-wider'>
       <Link href={url} passHref>
-        <a className='text-base py-3 border-b-2 border-b-transparent hover:border-b-gray-900'>
+        <a className='text-base px-1 py-2 border-b-2 border-b-transparent hover:border-b-gray-900'>
           {label}
         </a>
       </Link>
