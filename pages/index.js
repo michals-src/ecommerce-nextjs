@@ -1,11 +1,13 @@
 import Layout from "../src/components/layout";
 
+import Hero from "../src/sections/home/hero";
+
 export default function Home() {
   return (
     <>
       <Layout>
-        <div>HERO</div>
-        <div>CATEGORIES</div>
+        <Hero />
+        <div className='h-screen'>CATEGORIES</div>
         <div>NEWEST ITEMS</div>
       </Layout>
     </>
