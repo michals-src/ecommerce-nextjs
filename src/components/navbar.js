@@ -52,7 +52,7 @@ const SearchWrapper = ({ handleSearchClick }) => {
   return (
     <Link href='#' passHref>
       <a
-        className='cursor-text block py-2 pl-3 pr-12 rounded-2xl bg-gray-100 hover:bg-gray-200'
+        className='cursor-text block py-2 pl-3 pr-12 rounded-sm bg-gray-100 hover:bg-gray-200'
         onClick={e => {
           e.preventDefault();
           handleSearchClick();
@@ -138,6 +138,7 @@ const MobileNavigation = ({
   MobileNavbar,
   setMobileNavbar,
   handleSearchClick,
+  handleHamburgerClick,
 }) => {
   const wrapperClasses = classNames(
     "lg:hidden fixed top-0 left-0 w-full h-full z-50 bg-[#00000091]",
@@ -152,7 +153,7 @@ const MobileNavigation = ({
       <div className='fixed top-0 right-0 bg-white py-8 h-full overflow-y-scroll'>
         <div className='flex flex-col'>
           <div className='flex flex-row justify-end px-12'>
-            <button onClick={() => setMobileNavbar(false)}>
+            <button onClick={() => handleHamburgerClick()}>
               <XIcon className='w-8 h-8 p-1 rounded-full hover:bg-gray-100 text-gray-800 hover:text-gray-500' />
             </button>
           </div>
@@ -240,6 +241,19 @@ const Navbar = () => {
   const { SearchVisible, handleSearchClick, searchInput } = useSearch();
   const [MobileNavbar, setMobileNavbar] = useState(false);
 
+  const handleHamburgerClick = () => {
+    setMobileNavbar(!MobileNavbar);
+
+    const bodyClass = "overflow-y-hidden";
+
+    if (!MobileNavbar) {
+      document.body.classList.add(bodyClass);
+      return;
+    }
+
+    document.body.classList.remove(bodyClass);
+  };
+
   return (
     <>
       <div className='bg-gray-100 py-1'>
@@ -273,6 +287,7 @@ const Navbar = () => {
                 MobileNavbar={MobileNavbar}
                 setMobileNavbar={setMobileNavbar}
                 handleSearchClick={handleSearchClick}
+                handleHamburgerClick={handleHamburgerClick}
               />
               <DesktopNavigation />
             </div>
@@ -313,7 +328,7 @@ const Navbar = () => {
                 </li>
               </ul>
               <div className='flex lg:hidden cursor-pointer items-center ml-10'>
-                <button onClick={() => setMobileNavbar(true)}>
+                <button onClick={() => handleHamburgerClick()}>
                   <MenuAlt4Icon className='block w-7 h-7 p-1 rounded-full hover:bg-gray-100' />
                 </button>
               </div>
