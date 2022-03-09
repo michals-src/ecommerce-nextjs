@@ -80,20 +80,22 @@ const Hero = () => {
   return (
     <>
       <div>
-        <div className='container mx-auto px-6 lg:px-2'>
+        <div className='container mx-auto lg:px-2'>
           <div className='flex flex-row flex-nowrap'>
-            <div className='w-1/2 p-32 flex flex-col justify-center items-center bg-gray-100'>
+            <div className='w-1/2 p-10 lg:p-20 xl:p-32 flex flex-col justify-center items-center bg-gray-100'>
               <div>
                 <div className='mb-4'>
-                  <h6 className='text-lg text-gray-800'>Odkrywaj nowe smaki</h6>
+                  <h6 className='text-sm lg:text-lg text-gray-800'>
+                    Odkrywaj nowe smaki
+                  </h6>
                 </div>
                 <div className='mb-16'>
-                  <h3 className='text-gray-800 text-6xl font-medium leading-[1.1]'>
+                  <h3 className='text-gray-800 text-xl md:text-4xl xl:text-6xl font-medium leading-tight lg:leading-[1.1]'>
                     Wyposaż swoją kolekcję w nowe akcesoria
                   </h3>
                 </div>
                 <Link href='#' passHref>
-                  <a className='bg-black text-white px-5 py-2 rounded-full font-medium text-sm hover:bg-gray-700 hover:border-gray-700'>
+                  <a className='rounded-sm border border-black px-5 py-2 rounded-3 font-medium text-sm  hover:text-gray-500 hover:border-gray-500'>
                     Odkryj więcej
                   </a>
                 </Link>
