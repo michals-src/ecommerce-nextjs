@@ -4,9 +4,12 @@ function Categories() {
   return (
     <>
       <div>
+        <h2 className='my-28 mx-auto text-center text-4xl font-medium'>
+          Zobacz więcej produktów.
+        </h2>
         <div className='container mx-auto px-6 lg:px-2'>
           <div className='flex flex-row flex-wrap flex-1'>
-            <div className='h-96 w-1/3 relative flex flex-col justify-end'>
+            <div className='h-[600px] w-1/3 relative flex flex-col justify-end'>
               <div className='w-full h-full overflow-hidden'>
                 <div className='w-full h-full overflow-hidden absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]'>
                   <img src='https://images.unsplash.com/photo-1564023162242-91b863c6dcd4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80' />
@@ -27,7 +30,7 @@ function Categories() {
                 </div>
               </div>
             </div>
-            <div className='h-96 w-1/3 relative flex flex-col justify-end'>
+            <div className='h-[600px] w-1/3 relative flex flex-col justify-end'>
               <div className='w-full h-full overflow-hidden'>
                 <div className='w-full h-full overflow-hidden absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]'>
                   <img src='https://images.unsplash.com/photo-1571380401583-72ca84994796?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1664&q=80' />
@@ -48,7 +51,7 @@ function Categories() {
                 </div>
               </div>
             </div>
-            <div className='h-96 w-1/3 relative flex flex-col justify-end'>
+            <div className='h-[600px] w-1/3 relative flex flex-col justify-end'>
               <div className='w-full h-full overflow-hidden'>
                 <div className='w-full h-full overflow-hidden absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]'>
                   <img src='https://images.unsplash.com/photo-1615397349754-cfa2066a298e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80' />

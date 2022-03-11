@@ -197,7 +197,7 @@ export default function Newest() {
   return (
     <>
       <div className='container mx-auto px-3 lg:px-2'>
-        <div className='my-20'>
+        <div className='my-20 px-12'>
           <h2 className='mx-auto text-center text-3xl font-medium'>
             Odkryj najnowsze produkty
           </h2>
@@ -221,12 +221,12 @@ export default function Newest() {
                         <div className='w-full h-[400px] bg-gray-100'></div>
                         <div className='p-6'>
                           <div className='mt-2 mb-4'>
-                            <p className='text-lg font-medium truncate'>
+                            <p className='text-lg font-medium truncate tracking-wider'>
                               Nazwa
                               produktuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
                             </p>
                           </div>
-                          <p className='text-lg'>{10 * key} zł</p>
+                          <p className='text-[14.5px]'>{10 * key} zł</p>
                         </div>
                       </div>
                     </li>
