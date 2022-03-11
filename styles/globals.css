@@ -21,3 +21,24 @@
     box-sizing: border-box;
   } */
 }
+
+@layer components {
+  .slider > li {
+    flex: 0 0 calc(66% - var(--col-offset));
+    max-width: calc(66% - var(--col-offset));
+  }
+
+  @media screen(lg) {
+    .slider > li {
+      flex: 0 0 calc(50% - var(--col-offset));
+      max-width: calc(50% - var(--col-offset));
+    }
+  }
+
+  @media screen(xl) {
+    .slider > li {
+      flex: 0 0 calc(33% - var(--col-offset));
+      max-width: calc(33% - var(--col-offset));
+    }
+  }
+}
