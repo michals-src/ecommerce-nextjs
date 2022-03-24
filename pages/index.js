@@ -1,31 +1,90 @@
+import Link from "next/link";
 import Layout from "../src/components/layout";
 
-import Hero from "../src/sections/home/hero";
-import Newest from "../src/sections/home/newest";
-import Categories from "../src/sections/home/categories";
+import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+
+import products from "../fakeData/products.json";
+
+const categories = ["Liście", "urządzenia", "akcesoria"];
 
 export default function Home() {
   return (
     <>
       <Layout>
-        <Hero />
-        <Newest />
-        <Categories />
-        <div className="container mx-auto px-2 my-32 px-20">
-          <h1 className="text-8xl mb-16 font-bold">Czym jest CB</h1>
-          <p className="text-lg tracking-wide">Lorem ipsum dolor sit amet consectetur, adipisicing elit. At dolorum labore voluptas! Fugiat eos, aliquid repellat, consequatur pariatur maiores, sint vel non atque harum aspernatur illo sequi. Temporibus, ipsa doloremque.
-            Hic, obcaecati quidem! Tenetur, excepturi quis ut accusamus quisquam ipsam vitae esse? Ducimus distinctio ullam, velit illo tenetur dolores? Voluptatum ex porro magnam suscipit iste unde odit blanditiis, vero ducimus!
-            Provident cupiditate beatae blanditiis exercitationem? Eveniet ipsum illo nostrum vitae. Voluptas excepturi numquam ea eius distinctio eaque id beatae nisi commodi eos tempore assumenda hic, nostrum, libero nemo rem velit?</p>
-          <div className="mt-10 flex flex-row flex-wrap">
-            <div className="w-5/12 pr-20">
-              <p className="text-2xl font-bold">Korzysci z korzystania</p>
-            </div>
-            <div className="w-7/12 tracking-wide">
-              <p className="text-lg font-medium">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis quasi voluptate recusandae qui consequatur atque mollitia dicta quaerat, quod tempore, et, corrupti rerum accusamus laboriosam blanditiis deserunt tenetur tempora eos.</p>
+        <div id='hero'>
+          <div className='container mx-auto px-16'>
+            <div className='my-8 py-12'>
+              <h1 className='uppercase'>sklepshop</h1>
+              <h5 className='mt-3'>Wyposaż swoją kolekcję w nowe akcesoria</h5>
             </div>
           </div>
         </div>
-
+        <main id='main' className='my-16'>
+          <div className='container mx-auto px-16'>
+            <div className='flex flex-row flex-wrap items-start'>
+              <div className='w-3/12'>
+                <div className='pr-4'>
+                  <ul className='list-none p-0 m-0'>
+                    {categories.map((cat, k) => {
+                      return (
+                        <>
+                          <li className='mb-2 uppercase'>
+                            <Link href='/product' passHref>
+                              <a className='block w-full text-lg pb-2'>
+                                <div className='flex flex-row flex-nowrap items-center'>
+                                  <div>{cat}</div>
+                                  <div className='ml-6'>
+                                    <ArrowNarrowRightIcon className='w-4 h-4' />
+                                  </div>
+                                </div>
+                              </a>
+                            </Link>
+                          </li>
+                        </>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+              <div className='w-9/12'>
+                <div className='pl-4'>
+                  <ul className='list-none p-0 m-0 flex flex-row flex-wrap'>
+                    {products.map((product, k) => {
+                      return (
+                        <>
+                          <li className='w-4/12 px-4 mb-32'>
+                            <div className='relative'>
+                              <Link href='/product' passHref>
+                                <a className='absolute z-10 w-full h-full text-transparent top-0 left-0'>
+                                  Produkt
+                                </a>
+                              </Link>
+                              <div className='h-80 w-full overflow-hidden relative'>
+                                <img
+                                  className='object-fit'
+                                  src={product.image}
+                                />
+                              </div>
+                            </div>
+                            <div className='mt-8'>
+                              <span className='text-gray-400'>
+                                {product.category}
+                              </span>
+                              <p className='text-lg mt-3 mb-1'>
+                                {product.title}
+                              </p>
+                              <p className='text-lg'>{product.price} zł</p>
+                            </div>
+                          </li>
+                        </>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </Layout>
     </>
   );

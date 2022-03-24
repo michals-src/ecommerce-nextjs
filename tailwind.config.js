@@ -8,7 +8,8 @@ module.exports = {
     extend: {
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
-        poppins: ["Poppins", "sans-serif"],
+        cabin: ["Cabin", "sans-serif"],
+        heebo: ["Heebo", "sans-serif"],
         "pt-sans": [
           "PT Sans",
           "-apple-system",

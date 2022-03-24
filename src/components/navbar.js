@@ -52,7 +52,7 @@ const SearchWrapper = ({ handleSearchClick }) => {
   return (
     <Link href='#' passHref>
       <a
-        className='cursor-text block py-2 pl-3 pr-12 rounded-sm bg-gray-100 hover:bg-gray-200'
+        className='cursor-text block py-2 pl-3 pr-12 rounded-sm border bg-white'
         onClick={e => {
           e.preventDefault();
           handleSearchClick();
@@ -77,18 +77,19 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
   });
 
   const inputClasses = classNames(
-    "flex flex-row flex-nowrap rounded-sm bg-gray-100 cursor-text",
+    "flex flex-row flex-nowrap rounded-sm border-2 border-black cursor-text",
     {
-      "bg-gray-300": SearchInputFocus,
-      "hover:bg-gray-200": !SearchInputFocus,
+      "bg-gray-100": SearchInputFocus,
+      "shadow-lg": SearchInputFocus,
+      "hover:bg-gray-100": !SearchInputFocus,
     }
   );
 
   return (
     <>
       <div className={classes}>
-        <div className='bg-white top-0 fixed z-50 overflow-y-scroll w-full h-full p-12 lg:p-4'>
-          <div className='max-w-4xl mx-auto px-2 py-10'>
+        <div className='bg-[rgb(0,0,0,.8)] top-0 fixed z-50 overflow-y-scroll w-full h-full p-4 lg:p-12'>
+          <div className='bg-white max-w-6xl min-h-full h-auto relative mx-auto px-32 py-20 rounded-md'>
             <div className='flex flex-row flex-nowrap justify-between items-center'>
               <div>
                 <h2 className='text-4xl my-3'>Wyszukaj produkty</h2>
@@ -133,6 +134,8 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
     </>
   );
 });
+
+Search.displayName = "Search";
 
 const MobileNavigation = ({
   MobileNavbar,
@@ -223,8 +226,8 @@ const MobileNavigation = ({
 const DesktopNavigation = () => {
   return (
     <div className='hidden lg:block'>
-      <ul className='list-none flex flex-row items-center font-montserrat space-x-4'>
-        <MenuItem url='#' label='Liście' />
+      <ul className='list-none flex flex-row items-center font-montserrat space-x-4 tracking-wider '>
+        <MenuItem url='/products' label='Liście' />
         <MenuItem url='#' label='Urządzenia' />
         <MenuItem url='#' label='Akcesoria' />
         <MenuItem url='#' label='Dostawa' />
@@ -256,7 +259,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className='bg-gray-100 py-1'>
+      <div className='bg-emerald-700 text-white py-1'>
         <div className='container mx-auto px-6 lg:px-2 py-1'>
           <ul className='list-none flex justify-end text-sm'>
             <li>
@@ -274,12 +277,12 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className='flex flex-row flex-nowrap border-b border-b-gray-300'>
-        <div className='container mx-auto px-6 lg:px-2 py-4'>
+      <div className='flex flex-row flex-nowrap '>
+        <div className='container mx-auto px-6 lg:px-16 py-4'>
           <div className='flex flex-row justify-between items-center'>
             <div className='navbar-logo'>
-              <Link href='#' passHref>
-                <a className='text-2xl font-bold'>Nazwa.</a>
+              <Link href='/' passHref>
+                <a className='text-3xl font-bold'>Nazwa.</a>
               </Link>
             </div>
             <div className='flex flex-row flex-wrap flex-1 xl:flex-initial ml-8 xl:ml-0 self-end'>
@@ -320,13 +323,14 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className='cursor-pointer'>
-                  <Link href='#' passHref>
+                  <Link href='/cart' passHref>
                     <a className='block'>
                       <ShoppingCartIcon className='w-6 h-6 text-gray-900' />
                     </a>
                   </Link>
                 </li>
               </ul>
+              {/* Hamburger menu icon */}
               <div className='flex lg:hidden cursor-pointer items-center ml-10'>
                 <button onClick={() => handleHamburgerClick()}>
                   <MenuAlt4Icon className='block w-7 h-7 p-1 rounded-full hover:bg-gray-100' />

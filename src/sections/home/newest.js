@@ -1,242 +1,139 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
-import classNames from "classnames";
-import useBreakpoints from "../../hooks/useBreakpoints";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import Link from "next/link";
+import {
+  ShoppingCartIcon,
+  ArrowNarrowRightIcon,
+} from "@heroicons/react/outline";
 
-const Card_PreviewProduct = () => {
+const products = [
+  "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+  "https://images.unsplash.com/photo-1585652757141-8837d676fac8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+  "https://images.unsplash.com/photo-1597931752949-98c74b5b159f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+  "https://images.unsplash.com/photo-1599305090598-fe179d501227?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1664&q=80",
+  "https://images.unsplash.com/photo-1585652757173-57de5e9fab42?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+  "https://images.unsplash.com/photo-1563804447971-6e113ab80713?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+];
+
+function Newest() {
   return (
     <>
-      <div className='flex justify-end flex-row'>
-        <div className='w-full h-96 bg-gray-100'></div>
-        <div className='mt-8 mb-6'>
-          <p className='text-lg font-medium'>Nazwa produkty</p>
-        </div>
-        <p className='text-lg'>999 zł</p>
-      </div>
-    </>
-  );
-};
-
-const LeftArrow = ({ handleClick, ...props }) => {
-  return (
-    <div className='absolute top-0 left- 0 z-10 w-auto h-96 px-10'>
-      <div className='w-auto h-full flex flex-row flex-nowrap justify-between items-center'>
-        <button
-          onClick={() => handleClick()}
-          className='p-3 bg-white border border-gray-500'>
-          <ChevronLeftIcon className='w-4 h-4 text-gray-800' />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const RightArrow = ({ handleClick, ...props }) => {
-  return (
-    <div className='absolute top-0 right-0 z-10 w-auto h-96 px-10'>
-      <div className='w-auto h-full flex flex-row flex-nowrap justify-between items-center'>
-        <button
-          onClick={() => handleClick()}
-          className='p-3 bg-white border border-gray-500'>
-          <ChevronRightIcon className='w-4 h-4 text-gray-800' />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export default function Newest() {
-  const breakpoint = useBreakpoints();
-  const windowDimensions = useWindowDimensions();
-
-  const ref = useRef(null);
-  const ChildrenRefs = useRef([]);
-  const [ScrollOffset, setScrollOffset] = useState(0);
-  const [CarouselItem, setCarouselItem] = useState(0);
-
-  let fakeProducts = Array(10).fill("");
-
-  const [GetProductsOffset, setProductsOffset] = useState(0);
-
-  const [moveDir, setMoveDir] = useState(null);
-  const [prevScreenX, setPrevScreenX] = useState(null);
-  const [isTouched, setTouched] = useState(false);
-  const [hasMoved, setMoved] = useState(false);
-
-  useEffect(() => {
-    console.log(breakpoint);
-    if ("lg" === breakpoint) {
-      setProductsOffset(1);
-      return;
-    }
-    if (["xl", "2xl"].indexOf(breakpoint) > -1) {
-      setProductsOffset(2);
-      return;
-    }
-    setProductsOffset(0);
-  }, [breakpoint, windowDimensions]);
-
-  useEffect(() => {
-    ChildrenRefs.current = ChildrenRefs.current.slice(0, fakeProducts.length);
-  }, [fakeProducts]);
-
-  useEffect(() => {
-    let width = ChildrenRefs.current[0].getBoundingClientRect().width;
-    const gaps = 12;
-
-    setScrollOffset(Math.round(width) + gaps);
-  }, [ChildrenRefs, windowDimensions.width]);
-
-  useEffect(() => {
-    let currMaxCarouselSteps = fakeProducts.length - 1 - GetProductsOffset;
-    if (CarouselItem > currMaxCarouselSteps) {
-      setCarouselItem(currMaxCarouselSteps);
-    }
-
-    ref.current.scrollTo({
-      left: ScrollOffset * CarouselItem,
-      behavior: "smooth",
-    });
-  }, [windowDimensions.width]);
-
-  const handleNext = () => {
-    setCarouselItem(prevState => {
-      let newState = prevState + 1;
-
-      ref.current.scrollTo({
-        left: ScrollOffset * newState,
-        behavior: "smooth",
-      });
-
-      return newState;
-    });
-  };
-
-  const handlePrev = () => {
-    setCarouselItem(prevState => {
-      let newState = prevState === 0 ? 0 : prevState - 1;
-
-      ref.current.scrollTo({
-        left: ScrollOffset * newState,
-        behavior: "smooth",
-      });
-
-      return newState;
-    });
-  };
-
-  const _TouchStart = () => {
-    setTouched(true);
-  };
-
-  const _TouchEnd = () => {
-    setTouched(false);
-    setPrevScreenX(null);
-
-    if (hasMoved) {
-      let Lscroll = ref.current.scrollLeft;
-      let Loffset = ScrollOffset * CarouselItem;
-
-      //Scroll next
-      if ("left" === moveDir) {
-        if (Lscroll - Loffset >= ScrollOffset / 3) {
-          handleNext();
-          return;
-        }
-      }
-
-      //Scroll back
-      if ("right" === moveDir) {
-        if (-(Lscroll - Loffset) >= ScrollOffset / 3) {
-          handlePrev();
-          return;
-        }
-      }
-
-      //Scroll none action
-      ref.current.scrollTo({
-        left: ScrollOffset * CarouselItem,
-        behavior: "smooth",
-      });
-
-      setMoved(false);
-    }
-  };
-
-  const _TouchMove = e => {
-    const scrollVelocity = 11;
-    const props = "mousemove" === e.type ? e : e?.changedTouches[0];
-
-    if (isTouched) {
-      if (prevScreenX > props.screenX) {
-        if ("left" !== moveDir) setMoveDir("left");
-        ref.current.scrollBy({ left: scrollVelocity });
-      }
-      if (prevScreenX < props.screenX) {
-        if ("right" !== moveDir) setMoveDir("right");
-        ref.current.scrollBy({ left: -scrollVelocity });
-      }
-
-      setPrevScreenX(props.screenX);
-
-      if (!hasMoved) setMoved(true);
-    }
-  };
-
-  const _events = {
-    onMouseLeave: () => _TouchEnd(),
-    onMouseUp: () => _TouchEnd(),
-    onMouseDown: () => _TouchStart(),
-    onMouseMove: e => _TouchMove(e),
-    onTouchStart: () => _TouchStart(),
-    onTouchEnd: () => _TouchEnd(),
-    onTouchMove: e => _TouchMove(e),
-  };
-
-  return (
-    <>
-      <div className='container mx-auto px-3 lg:px-2'>
-        <div className='my-20 px-12'>
-          <h2 className='mx-auto text-center text-3xl font-medium'>
-            Odkryj najnowsze produkty
-          </h2>
-          <div className='my-20'>
-            <div className='w-full overflow-hidden relative'>
-              <ul
-                {..._events}
-                ref={ref}
-                className={`slider [--col-offset:4px] cursor-pointer w-full overflow-x-hidden list-none flex flex-row flex-nowrap`}>
-                {fakeProducts.map((_, key) => {
-                  let cn = classNames("select-none", {
-                    "mr-3": key === fakeProducts.length - 1 ? false : true,
-                  });
-
-                  return (
-                    <li
-                      key={key}
-                      className={cn}
-                      ref={el => (ChildrenRefs.current[key] = el)}>
-                      <div className='flex justify-end flex-col'>
-                        <div className='w-full h-[400px] bg-gray-100'></div>
-                        <div className='p-6'>
-                          <div className='mt-2 mb-4'>
-                            <p className='text-lg font-medium truncate tracking-wider'>
-                              Nazwa
-                              produktuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
-                            </p>
-                          </div>
-                          <p className='text-[14.5px]'>{10 * key} zł</p>
+      <div className='flex flex-row flex-wrap mt-12 '>
+        <div className='w-4/12 pl-20 pr-10 flex flex-col justify-start items-start'>
+          <div className='py-10 w-full'>
+            <div className='flex flex-col flex-nowrap'>
+              <div className='mb-12'>
+                <p className='mb-5 text-slate-500'>
+                  Wypełnij miejsce w sprzecie
+                </p>
+                <div className='text-3xl uppercase'>
+                  <p className='tracking-[.3rem]'>OLEJKI I LIŚCIE</p>
+                </div>
+                <div className='mt-3'>
+                  <Link href='#' passHref>
+                    <a className='font-medium text-sm'>
+                      <div className='flex flex-row flex-nowrap items-center'>
+                        <div className='py-1'>
+                          <p>Odkryj więcej</p>
+                        </div>
+                        <div className='py-1 px-3'>
+                          <ArrowNarrowRightIcon className='w-4 h-4' />
                         </div>
                       </div>
-                    </li>
-                  );
-                })}
-              </ul>
-              {CarouselItem != 0 && <LeftArrow handleClick={handlePrev} />}
-              {CarouselItem < fakeProducts.length - 1 - GetProductsOffset && (
-                <RightArrow handleClick={handleNext} />
-              )}
+                    </a>
+                  </Link>
+                </div>
+              </div>
+
+              <div className='mb-12 border-y border-slate-300 py-8'>
+                <p className='mb-5 text-slate-500'>Wyposaż się w v-rytor</p>
+                <div className='text-3xl uppercase'>
+                  <p className='tracking-[.3rem]'>urządzenia</p>
+                </div>
+                <div className='mt-3'>
+                  <Link href='#' passHref>
+                    <a className='font-medium text-sm'>
+                      <div className='flex flex-row flex-nowrap items-center'>
+                        <div className='py-1'>
+                          <p>Odkryj więcej</p>
+                        </div>
+                        <div className='py-1 px-3'>
+                          <ArrowNarrowRightIcon className='w-4 h-4' />
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+
+              <div className='mb-12'>
+                <p className='mb-5 text-slate-500'>Dodatkowy asortyment</p>
+                <div className='text-3xl uppercase'>
+                  <p className='tracking-[.3rem]'>Akcesoria</p>
+                </div>
+                <div className='mt-3'>
+                  <Link href='#' passHref>
+                    <a className='font-medium text-sm'>
+                      <div className='flex flex-row flex-nowrap items-center'>
+                        <div className='py-1'>
+                          <p>Odkryj więcej</p>
+                        </div>
+                        <div className='py-1 px-3'>
+                          <ArrowNarrowRightIcon className='w-4 h-4' />
+                        </div>
+                      </div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='w-8/12 overflow-hidden relative'>
+          <div className='p-10 h-full'>
+            <div className='mb-5'>
+              <div className='text-4xl'>
+                <h1 className=' font-medium uppercase tracking-[.5rem]'>
+                  Nowości
+                </h1>
+              </div>
+            </div>
+            <div className='flex flex-row flex-wrap items-end h-full -m-2'>
+              {products.map((p, k) => {
+                return (
+                  <>
+                    <div className='w-3/12 p-2 h-auto ' key={k}>
+                      <div className='bg-white  h-full'>
+                        <div className='overflow-hidden w-full h-64 object-cover'>
+                          <img className='w-full h-full' src={p} alt='Mockup' />
+                        </div>
+                      </div>
+                      <div className='p-4'>
+                        <h6 className='font-normal tracking-wide text-sm'>
+                          Lorem ipsum dolor sit amet consectetur, adipisicing
+                          elit.
+                        </h6>
+                        <div className='flex flex-row flex-nowrap items-end mt-5'>
+                          <p className='text-xl leading-4'>49,99 zł</p>
+                          <p className='text-sm text-gray-500 ml-3 leading-4'>
+                            / szt.
+                          </p>
+                        </div>
+                      </div>
+                      <Link href='#' passHref>
+                        <a className='block rounded-sm border px-5 py-2 rounded-3 font-medium text-sm text-white  bg-black hover:bg-slate-800'>
+                          <div className='flex flex-row flex-nowrap items-center'>
+                            <div className='py-1 px-3 w-auto'>
+                              <ShoppingCartIcon className='text-white w-4 h-4' />
+                            </div>
+                            <div className='flex-auto text-center'>
+                              <p className='py-1'>do koszyka</p>
+                            </div>
+                          </div>
+                        </a>
+                      </Link>
+                    </div>
+                  </>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -244,3 +141,5 @@ export default function Newest() {
     </>
   );
 }
+
+export default Newest;

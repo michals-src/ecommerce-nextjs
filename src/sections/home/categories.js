@@ -7,20 +7,47 @@ function Categories() {
         <h2 className='my-28 mx-auto text-center text-4xl font-medium'>
           Zobacz więcej produktów.
         </h2>
+        <div className='container mx-auto'>
+          <div className='bg-slate-50 p-10'>
+            <div className='flex flex-row flex-wrap'>
+              <div className='w-6/12'>
+                <div className='flex flex-row flex-wrap'>
+                  <div className='w-6/12 pr-1'>
+                    <div className='bg-slate-200 w-full h-full'>
+                      <div className='p-16'>
+                        <h6 className='text-lg font-medium'>Liście i olejki</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='w-6/12 pl-1'>
+                    <div className='flex flex-col flex-nowrap'>
+                      <div className='w-full bg-slate-200 p-16 mb-1'>
+                        <h6 className='text-lg font-medium'>Urządzenia</h6>
+                      </div>
+                      <div className='w-full bg-slate-200 p-16 mt-1'>
+                        <h6 className='text-lg font-medium'>Akcesoria</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='w-6/12'></div>
+            </div>
+          </div>
+        </div>
         <div className='container mx-auto px-6 lg:px-2'>
           <div className='flex flex-row flex-wrap flex-1 border-box mx-[-6px]'>
             <div className='h-[600px] w-4/12 relative text-center px-6'>
               <Link href='#' passHref>
-                <a className='absolute w-full h-full top-0 left-0'>
-                </a>
+                <a className='absolute w-full h-full top-0 left-0'></a>
               </Link>
               <div className='bg-green-100 flex flex-col relative z-10'>
-                <div className="p-12">
+                <div className='p-12'>
                   <div className='my-10'>
                     <h6 className='font-bold text-4xl tracking-wide'>
                       Olejki i liście
                     </h6>
-                    <div className="mt-3">
+                    <div className='mt-3'>
                       <p>Wypełnij miejsce w sprzecie</p>
                     </div>
                   </div>
@@ -33,7 +60,7 @@ function Categories() {
                   </div>
                 </div>
                 <div>
-                  <img src="https://images.unsplash.com/flagged/photo-1564833125683-b9fde4516274?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80" />
+                  {/* <img src="https://images.unsplash.com/flagged/photo-1564833125683-b9fde4516274?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80" /> */}
                 </div>
               </div>
             </div>
