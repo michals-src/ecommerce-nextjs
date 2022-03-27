@@ -300,7 +300,7 @@ const Navbar = () => {
                   <SearchWrapper handleSearchClick={handleSearchClick} />
                 </li>
                 <li className='cursor-pointer'>
-                  <Link href='#' passHref>
+                  <Link href='/login' passHref>
                     <a className='block'>
                       <UserIcon className='w-6 h-6 text-gray-900' />
                     </a>
