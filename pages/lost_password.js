@@ -5,7 +5,7 @@ import Layout from "../src/components/layout";
 import products from "../fakeData/products.json";
 
 import {
-    UserIcon,
+    MailIcon,
     ArrowNarrowLeftIcon,
     XIcon
 } from "@heroicons/react/outline";
@@ -51,7 +51,7 @@ export default function Login() {
                                             <div className="mb-8 flex flex-col flex-nowrap">
                                                 <label htmlFor="" className="text-lg mb-3">Adres e-mail</label>
                                                 <div className="flex flex-row flex-nowrap items-center border-2 border-black">
-                                                    <div className="px-5"><UserIcon className="w-5 h-4" /></div>
+                                                    <div className="px-5"><MailIcon className="w-5 h-4" /></div>
                                                     <div className="flex-auto"><input type="text" className="w-full py-3 pr-5 outline-none" placeholder="Adres e-mail" /></div>
                                                 </div>
                                             </div>
