@@ -111,16 +111,18 @@ export default function Cart() {
                         </div>
                       </div>
                       <div className='mt-4'>
-                        <button className='text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
-                          <div className='flex flex-row flex-nowrap items-center'>
-                            <div>
-                              <span>Przejdź do kasy</span>
+                        <Link href='/checkout' passHref>
+                          <a className='block w-full text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                            <div className='flex w-full flex-row flex-nowrap items-center'>
+                              <div className='flex-auto'>
+                                <span>Przejdź do kasy</span>
+                              </div>
+                              <div className='ml-6'>
+                                <ArrowNarrowRightIcon className='w-6 h-6' />
+                              </div>
                             </div>
-                            <div className='ml-6'>
-                              <ArrowNarrowRightIcon className='w-6 h-6' />
-                            </div>
-                          </div>
-                        </button>
+                          </a>
+                        </Link>
                       </div>
 
                       <div className='mt-16 mb-4'>

@@ -206,7 +206,7 @@ export default function Newest() {
               <ul
                 {..._events}
                 ref={ref}
-                className={`slider [--col-offset:4px] cursor-pointer w-full overflow-x-hidden list-none flex flex-row flex-nowrap`}>
+                className={`slider [--col-offset:4px] scroll-smoth cursor-pointer w-full overflow-x-hidden list-none flex flex-row flex-nowrap`}>
                 {fakeProducts.map((_, key) => {
                   let cn = classNames("select-none", {
                     "mr-3": key === fakeProducts.length - 1 ? false : true,
