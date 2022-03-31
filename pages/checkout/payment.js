@@ -1,15 +1,9 @@
 import Link from "next/link";
 import classNames from "classnames";
 
-import products from "../fakeData/products.json";
-
 import {
-  HeartIcon,
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
-  TrashIcon,
-  CreditCardIcon,
-  CashIcon,
 } from "@heroicons/react/outline";
 
 const steps_list = {
@@ -17,9 +11,9 @@ const steps_list = {
   // False -> active
   // null -> future
   Koszyk: { url: "/cart", state: false },
-  "Informacje do dostawy": { url: "/cart", state: true },
-  "Wybór dostawy": { url: "/cart", state: null },
-  Płatność: { url: "/cart", state: null },
+  "Informacje do dostawy": { url: "/cart", state: false },
+  "Wybór dostawy": { url: "/checkout/delivery", state: false },
+  Płatność: { url: "/checkout/payment", state: true },
   Finalizacja: { url: "/cart", state: null },
 };
 
@@ -91,104 +85,69 @@ const Steps = () => {
 const Form = () => {
   return (
     <>
-      <form>
-        <div className='space-y-8'>
-          <div className='flex flex-row flex-wrap'>
-            <div className='w-6/12 pr-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Imię</label>
-              </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Imię'
-              />
+      <div className='flex flex-col'>
+        <div className='w-full p-8 border-b border-b-gray-400 cursor-pointer'>
+          <div className='flex flex-row flex-nowrap'>
+            <div className='h-auto flex items-center p-3 mr-8'>
+              <div className='w-4 h-4 border-4 border-black rounded-full'></div>
             </div>
-            <div className='w-6/12 p;-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Nazwisko</label>
+            <div className='flex-auto'>
+              <div className='mb-1'>
+                <h5>Przelewy24 (Szybki przelew online / BLIK)</h5>
               </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Nazwisko'
-              />
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
+                iure, praesentium veritatis a, animi porro debitis in quae
+                assumenda voluptate suscipit sit ipsa vitae quos earum
+                recusandae reprehenderit voluptas ut.
+              </p>
             </div>
-          </div>
-          <div className='flex flex-row flex-wrap'>
-            <div className='w-9/12 pr-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Ulica</label>
-              </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Ulica'
-              />
-              <div className='mt-3 text-sm'>
-                <p className='text-gray-500'>Np. Piaskowa 3</p>
-              </div>
-            </div>
-            <div className='w-3/12 pl-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Numer lokalu</label>
-              </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Numer'
-              />
-              <div className='mt-3 text-sm'>
-                <p className='text-gray-500'>
-                  Numer mieszkania, domu bądź lokalu
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className='flex flex-row flex-wrap items-start'>
-            <div className='w-8/12 pr-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Miejscowość</label>
-              </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Miejscowość'
-              />
-            </div>
-            <div className='w-4/12 p;-4'>
-              <div className='mb-3'>
-                <label htmlFor=''>Kod pocztowy</label>
-              </div>
-              <input
-                type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
-                placeholder='Kod pocztowy'
-              />
-            </div>
-          </div>
-          <div className='flex flex-row flex-wrap items-center'>
-            <div className='mr-4'>
-              <input
-                type='checkbox'
-                name=''
-                id='save-infomations'
-                className='border border-black rounded-sm'
-              />
-            </div>
-            <div className='flex-auto p-1'>
-              <label htmlFor='save-infomations'>Zachowaj dane</label>
+            <div className='flex-auto w-4/12 text-right'>
+              <p>za darmo</p>
             </div>
           </div>
         </div>
-      </form>
+        <div className='w-full p-8 border-b border-b-gray-400 cursor-pointer'>
+          <div className='flex flex-row flex-nowrap'>
+            <div className='h-auto flex items-center p-3 mr-8'>
+              <div className='w-4 h-4 border border-black rounded-full'></div>
+            </div>
+            <div className='flex-auto'>
+              <div className='mb-1'>
+                <h5>Paypal</h5>
+              </div>
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
+                iure, praesentium veritatis.
+              </p>
+            </div>
+            <div className='flex-auto w-4/12 text-right'>
+              <p>za darmo</p>
+            </div>
+          </div>
+        </div>
+        <div className='w-full p-8 cursor-pointer'>
+          <div className='flex flex-row flex-nowrap'>
+            <div className='h-auto flex items-center p-3 mr-8'>
+              <div className='w-4 h-4 border border-black rounded-full'></div>
+            </div>
+            <div className='flex-auto'>
+              <div className='mb-1'>
+                <h5>Płatność przy odbiorze</h5>
+              </div>
+              <p>Lorem ipsum dolor sit amet consectetur.</p>
+            </div>
+            <div className='flex-auto w-4/12 text-right'>
+              <p>za darmo</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
 
-export default function Checkout() {
-  const product = products[0];
-
+export default function Payment() {
   return (
     <>
       <>
@@ -209,7 +168,7 @@ export default function Checkout() {
             <div className='flex flex-row flex-wrap '>
               <div className='w-7/12 pr-16 h-auto'>
                 <div className='mb-8 pb-12'>
-                  <h1 className='uppercase'>Dane do wysłki</h1>
+                  <h1 className='uppercase'>Wybór metody płatności</h1>
                 </div>
                 <div>
                   {/* Cart product */}
@@ -232,11 +191,11 @@ export default function Checkout() {
                       </p>
                     </div>
                     <div className='mt-4'>
-                      <Link href='/checkout/delivery' passHref>
+                      <Link href='/checkout/summary' passHref>
                         <a className='block text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
                           <div className='flex w-full flex-row flex-nowrap items-center'>
                             <div className='flex-auto'>
-                              <span>Rodzaj dostawy</span>
+                              <span>Przejdź do podsumowania</span>
                             </div>
                             <div className='ml-6'>
                               <ArrowNarrowRightIcon className='w-6 h-6' />
