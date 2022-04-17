@@ -27,35 +27,46 @@ const Step = ({ url, num, name, isLast, isActive }) => {
   const cn_number = classNames(
     "text-sm font-bold py-1 px-2 rounded-full border ",
     {
+      //Następny
       "border-gray-400 text-gray-400": isActive === null ? true : false,
-      "border-black text-black": isActive !== null ? !isActive : false,
-      "border-black bg-black text-white": isActive,
+      //Zaliczony
+      "border-primary-300 text-primary-300":
+        isActive !== null ? !isActive : false,
+      //Aktywny
+      "border-complement-200 bg-complement-200 text-complement-800": isActive,
     }
   );
+
+  const cn_link = classNames("block h-full", {
+    "text-complement-600": isActive,
+    "text-primary-400": isActive === false,
+    "hover:underline": isActive === false,
+    "text-black": isActive === null,
+  });
 
   const cn_label = classNames("flex-auto px-3", {
     "w-3/12": !isLast,
     "w-11/12": isLast,
   });
 
-  const cn_indicator = classNames("flex-auto bg-black h-[1.5px]", {
+  const cn_indicator = classNames("flex-auto h-[1.5px]", {
     "bg-gray-400": isActive === null || isActive === true ? true : false,
-    "bg-black": isActive === false ? !isActive : false,
+    "bg-primary-300": isActive === false ? !isActive : false,
   });
 
   return (
-    <li className='flex flex-row items-center flex-nowrap w-auto flex-auto mr-8'>
-      <div className='w-1/12 mr-3'>
+    <li className='mr-8 flex w-auto flex-auto flex-row flex-nowrap items-center'>
+      <div className='mr-3 w-1/12'>
         <span className={cn_number}>{num}</span>
       </div>
       <div className={cn_label}>
         {isActive === false && (
           <Link href={url} passHref>
-            <a className='block h-full hover:underline'>{name}</a>
+            <a className={cn_link}>{name}</a>
           </Link>
         )}
         {(isActive === true || isActive === null) && (
-          <span className='block h-full'>{name}</span>
+          <span className={cn_link}>{name}</span>
         )}
       </div>
       {!isLast && <div className={cn_indicator}></div>}
@@ -66,7 +77,7 @@ const Step = ({ url, num, name, isLast, isActive }) => {
 const Steps = () => {
   return (
     <>
-      <ul className='w-full list-none flex flex-row-flex-nowrap p-0 m-0'>
+      <ul className='flex-row-flex-nowrap m-0 flex w-full list-none p-0'>
         {Object.keys(steps_list).map((process, key) => {
           let state = steps_list[process].state;
           let url = steps_list[process].url;
@@ -100,17 +111,17 @@ const Form = () => {
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='box-border block w-full rounded-md border border-black py-3 px-5 outline-none hover:bg-gray-100 focus:border-primary focus:bg-primary-100'
                 placeholder='Imię'
               />
             </div>
-            <div className='w-6/12 p;-4'>
+            <div className='p;-4 w-6/12'>
               <div className='mb-3'>
                 <label htmlFor=''>Nazwisko</label>
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
                 placeholder='Nazwisko'
               />
             </div>
@@ -122,7 +133,7 @@ const Form = () => {
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
                 placeholder='Ulica'
               />
               <div className='mt-3 text-sm'>
@@ -135,7 +146,7 @@ const Form = () => {
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
                 placeholder='Numer'
               />
               <div className='mt-3 text-sm'>
@@ -152,17 +163,17 @@ const Form = () => {
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
                 placeholder='Miejscowość'
               />
             </div>
-            <div className='w-4/12 p;-4'>
+            <div className='p;-4 w-4/12'>
               <div className='mb-3'>
                 <label htmlFor=''>Kod pocztowy</label>
               </div>
               <input
                 type='text'
-                className='border border-black rounded-md outline-none py-3 px-5 w-full block'
+                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
                 placeholder='Kod pocztowy'
               />
             </div>
@@ -173,7 +184,7 @@ const Form = () => {
                 type='checkbox'
                 name=''
                 id='save-infomations'
-                className='border border-black rounded-sm'
+                className='rounded-sm border border-black'
               />
             </div>
             <div className='flex-auto p-1'>
@@ -207,7 +218,7 @@ export default function Checkout() {
           </div>
           <div className='container mx-auto px-16'>
             <div className='flex flex-row flex-wrap '>
-              <div className='w-7/12 pr-16 h-auto'>
+              <div className='h-auto w-7/12 pr-16'>
                 <div className='mb-8 pb-12'>
                   <h1 className='uppercase'>Dane do wysłki</h1>
                 </div>
@@ -217,7 +228,7 @@ export default function Checkout() {
                   {/* Cart product */}
                 </div>
               </div>
-              <div className='w-5/12 p-16 h-auto'>
+              <div className='h-auto w-5/12 p-16'>
                 <div>
                   <div>
                     <div className='mb-4'>
@@ -233,13 +244,13 @@ export default function Checkout() {
                     </div>
                     <div className='mt-4'>
                       <Link href='/checkout/delivery' passHref>
-                        <a className='block text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                        <a className='block border-2 border-primary-400 bg-primary-400 py-3 px-6 text-sm font-bold uppercase text-white'>
                           <div className='flex w-full flex-row flex-nowrap items-center'>
                             <div className='flex-auto'>
                               <span>Rodzaj dostawy</span>
                             </div>
                             <div className='ml-6'>
-                              <ArrowNarrowRightIcon className='w-6 h-6' />
+                              <ArrowNarrowRightIcon className='h-6 w-6' />
                             </div>
                           </div>
                         </a>
@@ -251,14 +262,14 @@ export default function Checkout() {
             </div>
           </div>
         </main>
-        <footer className='mt-32 pb-10 w-full h-auto bg-gray-100'>
-          <div className='border-y bnrder-gray-200 bg-gray-100 py-4'>
+        <footer className='mt-32 h-auto w-full bg-gray-100 pb-10'>
+          <div className='bnrder-gray-200 border-y bg-gray-100 py-4'>
             <div className='container mx-auto px-16'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-6'>
-                      <ArrowNarrowLeftIcon className='w-4 h-4' />
+                      <ArrowNarrowLeftIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto'>
                       <span>Powrót do sklepu</span>
@@ -269,7 +280,7 @@ export default function Checkout() {
             </div>
           </div>
           <div className='container mx-auto px-16'>
-            <div className='pt-10 flex flex-row flex-wrap space-x-8'>
+            <div className='flex flex-row flex-wrap space-x-8 pt-10'>
               <Link href='#' passHref>
                 <a className='hover:underline'>Regulamin</a>
               </Link>

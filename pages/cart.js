@@ -21,16 +21,16 @@ export default function Cart() {
           <div className='container mx-auto px-16'>
             <div>
               <div className='flex flex-row flex-wrap '>
-                <div className='w-7/12 pr-16 h-auto'>
+                <div className='h-auto w-7/12 pr-16'>
                   <div className='mb-8 pb-12'>
                     <h1 className='uppercase'>Koszyk</h1>
                     <h5 className='mt-3'>1 produkt</h5>
                   </div>
                   <div className='flex flex-col flex-nowrap space-y-1'>
                     {/* Cart product */}
-                    <div className='border-b border-grey-600 p-5'>
+                    <div className='border-grey-600 border-b p-5'>
                       <div className='flex flex-row flex-nowrap'>
-                        <div className='w-1/12 h-auto'>
+                        <div className='h-auto w-1/12'>
                           <img
                             className='w-full'
                             src={product.image}
@@ -39,32 +39,32 @@ export default function Cart() {
                         </div>
                         <div className='w-11/12 pl-10'>
                           <h6 className='text-lg'>{product.title}</h6>
-                          <div className='flex flex-row items-center my-2'>
+                          <div className='my-2 flex flex-row items-center'>
                             <p className='text-normal mr-4'>Ilość</p>
                             <input
                               type='number'
-                              className='text-sm px-3 py-1 border-2 border-black rounded-sm'
+                              className='rounded-sm border-2 border-black px-3 py-1 text-sm'
                               min='0'
                               max='99'
                               value='0'
                             />
                           </div>
-                          <div className='flex flex-row flex-wrap items-center mt-6'>
+                          <div className='mt-6 flex flex-row flex-wrap items-center'>
                             <div className='flex-auto'>
                               <p>{product.price} zł</p>
                             </div>
                             <div className='flex flex-row flex-nowrap space-x-6'>
-                              <button className='flex flex-row flex-nowrap items-center text-gray-600 hover:underline text-sm'>
+                              <button className='flex flex-row flex-nowrap items-center text-sm text-gray-600 hover:underline'>
                                 <div className='mr-2'>
-                                  <TrashIcon className='w-3 h-3' />
+                                  <TrashIcon className='h-3 w-3' />
                                 </div>
                                 <div>
                                   <span>Usuń</span>
                                 </div>
                               </button>
-                              <button className='flex flex-row flex-nowrap items-center text-gray-600 hover:underline text-sm'>
+                              <button className='flex flex-row flex-nowrap items-center text-sm text-complement-800 hover:underline'>
                                 <div className='mr-2'>
-                                  <HeartIcon className='w-3 h-3' />
+                                  <HeartIcon className='h-3 w-3' />
                                 </div>
                                 <div>
                                   <span>Przenieś do listy życzeń</span>
@@ -78,14 +78,14 @@ export default function Cart() {
                     {/* Cart product */}
                   </div>
                 </div>
-                <div className='w-5/12 p-16 h-auto bg-gray-100'>
+                <div className='h-auto w-5/12 bg-gray-100 p-16'>
                   <div>
                     <div>
                       <div className='mb-4'>
                         <h4 className='uppercase'>Podsumowanie</h4>
                       </div>
                       <div className='space-y-4'>
-                        <div className='flex flex-row flex-nowrap space-between'>
+                        <div className='space-between flex flex-row flex-nowrap'>
                           <div className='flex-auto'>
                             <p>Suma produktów</p>
                           </div>
@@ -93,7 +93,7 @@ export default function Cart() {
                             <p>{product.price} zł</p>
                           </div>
                         </div>
-                        <div className='flex flex-row flex-nowrap space-between'>
+                        <div className='space-between flex flex-row flex-nowrap'>
                           <div className='flex-auto'>
                             <p>Dostawa</p>
                           </div>
@@ -102,7 +102,7 @@ export default function Cart() {
                           </div>
                         </div>
                       </div>
-                      <div className='flex flex-row flex-nowrap space-between mt-8'>
+                      <div className='space-between mt-8 flex flex-row flex-nowrap'>
                         <div className='flex-auto'>
                           <p className='text-lg'>Łącznie (w tym VAT)</p>
                         </div>
@@ -112,13 +112,13 @@ export default function Cart() {
                       </div>
                       <div className='mt-4'>
                         <Link href='/checkout' passHref>
-                          <a className='block w-full text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                          <a className='block w-full border-2 border-primary bg-primary py-3 px-6 text-sm font-bold uppercase text-white '>
                             <div className='flex w-full flex-row flex-nowrap items-center'>
                               <div className='flex-auto'>
                                 <span>Przejdź do kasy</span>
                               </div>
                               <div className='ml-6'>
-                                <ArrowNarrowRightIcon className='w-6 h-6' />
+                                <ArrowNarrowRightIcon className='h-6 w-6' />
                               </div>
                             </div>
                           </a>
@@ -128,18 +128,18 @@ export default function Cart() {
                       <div className='mt-16 mb-4'>
                         <h4 className='uppercase'>Akceptowalne płatności</h4>
                       </div>
-                      <div className='items-center flex flex-row flex-nowrap'>
+                      <div className='flex flex-row flex-nowrap items-center'>
                         <div className='mr-6'>
-                          <CreditCardIcon className='w-4 h-4' />
+                          <CreditCardIcon className='h-4 w-4' />
                         </div>
                         <p className='text-lg'>Online</p>
                       </div>
                       <div className='mt-3 mb-6'>
                         Rodzaje płatności online ... zdjęcia
                       </div>
-                      <div className='items-center flex flex-row flex-nowrap'>
+                      <div className='flex flex-row flex-nowrap items-center'>
                         <div className='mr-6'>
-                          <CashIcon className='w-4 h-4' />
+                          <CashIcon className='h-4 w-4' />
                         </div>
                         <p className='text-lg'>Przy odbiorze</p>
                       </div>

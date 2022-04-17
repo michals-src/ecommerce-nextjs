@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import Link from "next/link";
 import classNames from "classnames";
+import { motion } from "framer-motion";
 
 import {
   ShoppingBagIcon,
@@ -51,17 +52,19 @@ const useSearch = () => {
 const SearchWrapper = ({ handleSearchClick }) => {
   return (
     <Link href='#' passHref>
-      <a
-        className='cursor-text block py-2 pl-3 pr-12 rounded-sm border bg-white'
+      <motion.a
+        initial={{ paddingLeft: "12px" }}
+        whileHover={{ paddingLeft: "18px", transition: { duration: 0.1 } }}
+        className='block cursor-text bg-complement-100 py-2 pl-3 pr-12'
         onClick={e => {
           e.preventDefault();
           handleSearchClick();
         }}>
         <span className='flex flex-row flex-nowrap items-center'>
-          <SearchIcon className='w-4 h-4 text-gray-900' />
-          <p className='text-sm text-gray-400 ml-4'>Wyszukaj</p>
+          <SearchIcon className='h-4 w-4 text-complement-900' />
+          <p className='ml-4 text-sm text-complement-800'>Wyszukaj</p>
         </span>
-      </a>
+      </motion.a>
     </Link>
   );
 };
@@ -77,47 +80,64 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
   });
 
   const inputClasses = classNames(
-    "flex flex-row flex-nowrap rounded-sm border-2 border-black cursor-text",
+    "flex flex-row flex-nowrap rounded-sm border-2 cursor-text",
     {
-      "bg-gray-100": SearchInputFocus,
+      "border-primary-800": !SearchInputFocus,
+      "border-primary-500": SearchInputFocus,
       "shadow-lg": SearchInputFocus,
       "hover:bg-gray-100": !SearchInputFocus,
     }
   );
 
+  const variants = {
+    closed: {
+      opacity: 0,
+      display: "none",
+    },
+    open: {
+      opacity: 1,
+      display: "block",
+    },
+  };
+
   return (
     <>
-      <div className={classes}>
-        <div className='bg-[rgb(0,0,0,.8)] top-0 fixed z-50 overflow-y-scroll w-full h-full p-4 lg:p-12'>
-          <div className='bg-white max-w-6xl min-h-full h-auto relative mx-auto px-32 py-20 rounded-md'>
-            <div className='flex flex-row flex-nowrap justify-between items-center'>
-              <div>
-                <h2 className='text-4xl my-3'>Wyszukaj produkty</h2>
+      <motion.div
+        initial={"closed"}
+        animate={visible ? "open" : "closed"}
+        variants={variants}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className='absolute left-0 top-0 z-20 h-full w-full'>
+        <div className='fixed top-0 z-50 h-full w-full overflow-y-scroll bg-[rgb(0,0,0,.8)] pb-0 md:pb-4 lg:pb-12'>
+          <div className='relative mx-auto h-auto bg-white px-32 py-12'>
+            <div className='mx-auto max-w-4xl'>
+              <div className='flex flex-row flex-nowrap items-center justify-between'>
+                <div>
+                  <h2 className='my-3 text-4xl'>Wyszukaj produkty</h2>
+                </div>
+                <div>
+                  <span className='block cursor-pointer p-1'>
+                    <XIcon
+                      className='h-7 w-7 text-gray-900 hover:text-gray-500'
+                      onClick={onClose}
+                    />
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className='block p-1 cursor-pointer'>
-                  <XIcon
-                    className='w-7 h-7 text-gray-900 hover:text-gray-500'
-                    onClick={onClose}
-                  />
-                </span>
-              </div>
-            </div>
-            <div className='my-8'>
-              <form>
+              <div className='my-8'>
                 <div className={inputClasses}>
                   <div
                     className='flex items-center justify-center p-4'
                     onClick={() => {
                       ref.current.focus();
                     }}>
-                    <SearchIcon className='w-4 h-4 text-gray-900' />
+                    <SearchIcon className='h-4 w-4 text-gray-900' />
                   </div>
                   <input
                     ref={ref}
                     type='text'
                     name='search-item'
-                    className='px-3 py-4 bg-transparent w-full outline-none'
+                    className='w-full bg-transparent px-3 py-4 outline-none'
                     placeholder='Czego szukasz ?'
                     autoComplete='off'
                     onBlur={() => setSearchInputFocus(false)}
@@ -126,11 +146,40 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
                     onChange={e => setInputValue(e.target.value)}
                   />
                 </div>
-              </form>
+
+                <div className='mt-10 py-12'>
+                  <p className='mb-6 uppercase text-gray-600'>
+                    Popularne wyszukiwania
+                  </p>
+                  <ul className='m-0 flex w-full list-none flex-col p-0'>
+                    <li className='py-2 tracking-wide'>
+                      <Link href='#' passHref>
+                        <a className='hover:underline'>
+                          <h6>Fjallraven - Foldsack</h6>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className='py-2 tracking-wide'>
+                      <Link href='#' passHref>
+                        <a className='hover:underline'>
+                          <h6>Cotton Jacket</h6>
+                        </a>
+                      </Link>
+                    </li>
+                    <li className='py-2 tracking-wide'>
+                      <Link href='#' passHref>
+                        <a className='hover:underline'>
+                          <h6>White Gold Plated</h6>
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 });
@@ -153,17 +202,17 @@ const MobileNavigation = ({
 
   return (
     <div className={wrapperClasses}>
-      <div className='fixed top-0 right-0 bg-white py-8 h-full overflow-y-scroll'>
+      <div className='fixed top-0 right-0 h-full overflow-y-scroll bg-white py-8'>
         <div className='flex flex-col'>
           <div className='flex flex-row justify-end px-12'>
             <button onClick={() => handleHamburgerClick()}>
-              <XIcon className='w-8 h-8 p-1 rounded-full hover:bg-gray-100 text-gray-800 hover:text-gray-500' />
+              <XIcon className='h-8 w-8 rounded-full p-1 text-gray-800 hover:bg-gray-100 hover:text-gray-500' />
             </button>
           </div>
           <div className='my-8 px-12'>
             <SearchWrapper handleSearchClick={handleSearchClick} />
           </div>
-          <ul className='list-none flex flex-col text-2xl px-6 my-12'>
+          <ul className='my-12 flex list-none flex-col px-6 text-2xl'>
             <Link href='#' passHref>
               <a className='block py-2 pl-8 pr-32 hover:text-gray-400 focus:text-gray-500'>
                 Liście
@@ -180,26 +229,26 @@ const MobileNavigation = ({
               </a>
             </Link>
           </ul>
-          <div className='my-6 p-8 px-12 bg-gray-100'>
+          <div className='my-6 bg-gray-100 p-8 px-12'>
             <div className='mb-3'>
-              <button className='border-black border-2 text-black px-5 py-2 rounded-full font-medium text-sm w-full hover:bg-gray-200'>
+              <button className='w-full rounded-full border-2 border-black px-5 py-2 text-sm font-medium text-black hover:bg-gray-200'>
                 Dołącz do nas
               </button>
             </div>
             <div>
-              <button className='bg-gray-600 border-2 border-gray-600 text-white px-5 py-2 rounded-full font-medium text-sm w-full hover:bg-gray-700'>
+              <button className='w-full rounded-full border-2 border-gray-600 bg-gray-600 px-5 py-2 text-sm font-medium text-white hover:bg-gray-700'>
                 Zaloguj się
               </button>
             </div>
           </div>
           <div className='py-4 px-12'>
             <h6 className='mb-4 text-lg'>Pomocne odnośniki</h6>
-            <ul className='list-none flex flex-col flex-nowrap'>
+            <ul className='flex list-none flex-col flex-nowrap'>
               <li className='my-2'>
                 <Link href='#' passHref>
                   <a className='flex flex-row flex-nowrap items-center text-xl hover:text-gray-400 focus:text-gray-500'>
-                    <span className='p-1 mr-3'>
-                      <ChatAlt2Icon className='w-5 h-5 text-gray-700' />
+                    <span className='mr-3 p-1'>
+                      <ChatAlt2Icon className='h-5 w-5 text-gray-700' />
                     </span>
                     <span>Kontakt</span>
                   </a>
@@ -208,8 +257,8 @@ const MobileNavigation = ({
               <li className='my-2'>
                 <Link href='#' passHref>
                   <a className='flex flex-row flex-nowrap items-center text-xl hover:text-gray-400 focus:text-gray-500'>
-                    <span className='p-1 mr-3'>
-                      <InformationCircleIcon className='w-5 h-5 text-gray-700' />
+                    <span className='mr-3 p-1'>
+                      <InformationCircleIcon className='h-5 w-5 text-gray-700' />
                     </span>
                     <span>Pomoc</span>
                   </a>
@@ -226,8 +275,8 @@ const MobileNavigation = ({
 const DesktopNavigation = () => {
   return (
     <div className='hidden lg:block'>
-      <ul className='list-none flex flex-row items-center font-montserrat space-x-4 tracking-wider '>
-        <MenuItem url='/products' label='Liście' />
+      <ul className='flex list-none flex-row items-center space-x-4 font-montserrat tracking-wider '>
+        <MenuItem url='/products' label='Liście' active={true} />
         <MenuItem url='#' label='Urządzenia' />
         <MenuItem url='#' label='Akcesoria' />
         <MenuItem url='#' label='Dostawa' />
@@ -259,12 +308,12 @@ const Navbar = () => {
 
   return (
     <>
-      <div className='bg-emerald-700 text-white py-1'>
-        <div className='container mx-auto px-6 lg:px-2 py-1'>
-          <ul className='list-none flex justify-end text-sm'>
+      <div className='bg-primary py-1 text-white'>
+        <div className='container mx-auto px-6 py-1 lg:px-2'>
+          <ul className='flex list-none justify-end text-sm'>
             <li>
               <Link href='#' passHref>
-                <a className='block pr-5 border-r border-r-gray-400 hover:underline text-sm'>
+                <a className='block border-r border-r-gray-800 pr-5 text-sm hover:underline'>
                   Dołącz do nas
                 </a>
               </Link>
@@ -277,32 +326,33 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className='flex flex-row flex-nowrap '>
-        <div className='container mx-auto px-6 lg:px-16 py-4'>
-          <div className='flex flex-row justify-between items-center'>
+      <div className='flex flex-row flex-nowrap bg-black text-white '>
+        <div className='container mx-auto px-6 pt-4 lg:px-16'>
+          <div className='flex flex-row items-center justify-between'>
             <div className='navbar-logo'>
               <Link href='/' passHref>
-                <a className='text-3xl font-bold'>Nazwa.</a>
+                <a>
+                  <h2 className='font-bold'>Sklepshop.</h2>
+                  <span className='mt-2 block text-lg'>
+                    Wyposaż swoją kolekcję w nowe akcesoria
+                  </span>
+                </a>
               </Link>
             </div>
-            <div className='flex flex-row flex-wrap flex-1 xl:flex-initial ml-8 xl:ml-0 self-end'>
-              <MobileNavigation
-                MobileNavbar={MobileNavbar}
-                setMobileNavbar={setMobileNavbar}
-                handleSearchClick={handleSearchClick}
-                handleHamburgerClick={handleHamburgerClick}
-              />
-              <DesktopNavigation />
-            </div>
             <div className='flex flex-row flex-nowrap'>
-              <ul className='list-none flex flex-row items-center space-x-4 lg:space-x-6 relative'>
-                <li className='cursor-text hidden lg:block absolute right-0 mr-[100%]'>
-                  <SearchWrapper handleSearchClick={handleSearchClick} />
-                </li>
+              {/* Icons */}
+              <ul className='relative flex list-none flex-row items-center space-x-4 lg:space-x-6'>
                 <li className='cursor-pointer'>
                   <Link href='/login' passHref>
                     <a className='block'>
-                      <UserIcon className='w-6 h-6 text-gray-900' />
+                      <div className='flex flex-row flex-nowrap items-center'>
+                        <span className='mr-2 block'>Zaloguj się</span>
+                        <span className='block'>
+                          <span>
+                            <UserIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
+                          </span>
+                        </span>
+                      </div>
                     </a>
                   </Link>
                 </li>
@@ -311,11 +361,11 @@ const Navbar = () => {
                     <a className='block'>
                       <span className='relative block'>
                         <span>
-                          <HeartIcon className='p-1 hover:bg-gray-100 rounded-full w-8 h-8 text-gray-900' />
+                          <HeartIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
                         </span>
-                        <span className='absolute z-10 top-[-25%] right-[-25%]'>
-                          <span className='bg-black text-white text-[11px] rounded-full py-[1px] px-[6px]'>
-                            99
+                        <span className='absolute top-[-25%] right-[-25%] z-10'>
+                          <span className='rounded-full bg-primary py-[1px] px-[6px] text-[11px] text-white'>
+                            99+
                           </span>
                         </span>
                       </span>
@@ -325,17 +375,35 @@ const Navbar = () => {
                 <li className='cursor-pointer'>
                   <Link href='/cart' passHref>
                     <a className='block'>
-                      <ShoppingCartIcon className='w-6 h-6 text-gray-900' />
+                      <span className='block'>
+                        <span>
+                          <ShoppingCartIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
+                        </span>
+                      </span>
                     </a>
                   </Link>
                 </li>
               </ul>
               {/* Hamburger menu icon */}
-              <div className='flex lg:hidden cursor-pointer items-center ml-10'>
+              <div className='ml-10 flex cursor-pointer items-center lg:hidden'>
                 <button onClick={() => handleHamburgerClick()}>
-                  <MenuAlt4Icon className='block w-7 h-7 p-1 rounded-full hover:bg-gray-100' />
+                  <MenuAlt4Icon className='block h-7 w-7 rounded-full p-1 hover:bg-gray-100' />
                 </button>
               </div>
+            </div>
+          </div>
+          <div className='flex flex-row flex-nowrap'>
+            <div className='mt-12 flex flex-1 flex-row flex-wrap self-end xl:ml-0 xl:flex-initial'>
+              <MobileNavigation
+                MobileNavbar={MobileNavbar}
+                setMobileNavbar={setMobileNavbar}
+                handleSearchClick={handleSearchClick}
+                handleHamburgerClick={handleHamburgerClick}
+              />
+              <DesktopNavigation />
+            </div>
+            <div className='ml-auto flex w-3/12 flex-col self-end'>
+              <SearchWrapper handleSearchClick={handleSearchClick} />
             </div>
           </div>
         </div>
@@ -356,13 +424,21 @@ const Navbar = () => {
  * @param {string} label Address title
  * @return React.Element
  */
-const MenuItem = ({ url, label }) => {
+const MenuItem = ({ url, label, active }) => {
+  const cn = classNames(
+    "block border-b-4 border-b-transparent py-3 text-base hover:border-complement hover:text-white",
+    {
+      "bg-complement-900": active,
+      "border-b-complement": active,
+      "px-1": !active,
+      "px-4": active,
+    }
+  );
+
   return (
     <li className='tracking-wider'>
       <Link href={url} passHref>
-        <a className='text-base px-1 py-2 border-b-2 border-b-transparent hover:border-b-gray-900'>
-          {label}
-        </a>
+        <a className={cn}>{label}</a>
       </Link>
     </li>
   );
