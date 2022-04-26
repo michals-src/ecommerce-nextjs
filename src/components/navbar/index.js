@@ -15,6 +15,11 @@ import {
   MenuAlt4Icon,
 } from "@heroicons/react/outline";
 
+import { useDispatch } from "react-redux";
+import { innerModal } from "../../slice/modalSlice";
+
+import _m_Login from "../../modal-content/login";
+import _m_Register from "../../modal-content/register";
 /**
  * Pseudo-hook search input props
  *
@@ -290,6 +295,8 @@ const DesktopNavigation = () => {
  * Website navbar
  */
 const Navbar = () => {
+  const dispatch = useDispatch();
+
   const { SearchVisible, handleSearchClick, searchInput } = useSearch();
   const [MobileNavbar, setMobileNavbar] = useState(false);
 
@@ -308,15 +315,15 @@ const Navbar = () => {
 
   return (
     <>
-      <div className='bg-primary py-1 text-white'>
+      <div className='bg-primary py-1 '>
         <div className='container mx-auto px-6 py-1 lg:px-2'>
           <ul className='flex list-none justify-end text-sm'>
             <li>
-              <Link href='#' passHref>
-                <a className='block border-r border-r-gray-800 pr-5 text-sm hover:underline'>
-                  Dołącz do nas
-                </a>
-              </Link>
+              <button
+                className='block border-r pr-5 text-sm hover:underline'
+                onClick={() => dispatch(innerModal(<_m_Register />))}>
+                Dołącz do nas
+              </button>
             </li>
             <li>
               <Link href='#' passHref>
@@ -326,7 +333,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      <div className='flex flex-row flex-nowrap bg-black text-white '>
+      <div className='flex flex-row flex-nowrap border-b-2 border-b-complement'>
         <div className='container mx-auto px-6 pt-4 lg:px-16'>
           <div className='flex flex-row items-center justify-between'>
             <div className='navbar-logo'>
@@ -343,25 +350,25 @@ const Navbar = () => {
               {/* Icons */}
               <ul className='relative flex list-none flex-row items-center space-x-4 lg:space-x-6'>
                 <li className='cursor-pointer'>
-                  <Link href='/login' passHref>
-                    <a className='block'>
-                      <div className='flex flex-row flex-nowrap items-center'>
-                        <span className='mr-2 block'>Zaloguj się</span>
-                        <span className='block'>
-                          <span>
-                            <UserIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
-                          </span>
+                  <button
+                    className='block'
+                    onClick={() => dispatch(innerModal(<_m_Login />))}>
+                    <div className='flex flex-row flex-nowrap items-center'>
+                      <span className='mr-2 block'>Zaloguj się</span>
+                      <span className='block'>
+                        <span>
+                          <UserIcon className='h-8 w-8 rounded-full p-1 text-black hover:bg-complement-100 hover:text-black' />
                         </span>
-                      </div>
-                    </a>
-                  </Link>
+                      </span>
+                    </div>
+                  </button>
                 </li>
                 <li className='cursor-pointer'>
                   <Link href='#' passHref>
                     <a className='block'>
                       <span className='relative block'>
                         <span>
-                          <HeartIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
+                          <HeartIcon className='h-8 w-8 rounded-full p-1 text-black hover:bg-complement-100 hover:text-black' />
                         </span>
                         <span className='absolute top-[-25%] right-[-25%] z-10'>
                           <span className='rounded-full bg-primary py-[1px] px-[6px] text-[11px] text-white'>
@@ -377,7 +384,7 @@ const Navbar = () => {
                     <a className='block'>
                       <span className='block'>
                         <span>
-                          <ShoppingCartIcon className='h-8 w-8 rounded-full p-1 text-white hover:bg-complement-100 hover:text-black' />
+                          <ShoppingCartIcon className='h-8 w-8 rounded-full p-1 text-black hover:bg-complement-100 hover:text-black' />
                         </span>
                       </span>
                     </a>
@@ -426,9 +433,9 @@ const Navbar = () => {
  */
 const MenuItem = ({ url, label, active }) => {
   const cn = classNames(
-    "block border-b-4 border-b-transparent py-3 text-base hover:border-complement hover:text-white",
+    "block border-b-2 border-b-transparent py-3 text-base hover:border-complement",
     {
-      "bg-complement-900": active,
+      "bg-complement-300": active,
       "border-b-complement": active,
       "px-1": !active,
       "px-4": active,
@@ -444,4 +451,4 @@ const MenuItem = ({ url, label, active }) => {
   );
 };
 
-export default Navbar;
+export { Navbar as default };

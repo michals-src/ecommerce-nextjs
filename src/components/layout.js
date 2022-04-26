@@ -1,12 +1,27 @@
 import Head from "next/head";
 import Router from "next/router";
+
+import NProgress from "nprogress";
+
+import { Provider } from "react-redux";
+import { useSelector } from "react-redux";
+import { modalStore } from "../store/modalStore";
+import { selectModal } from "../slice/modalSlice";
+
 import Navbar from "./navbar";
 import Footer from "./footer";
-import NProgress from "nprogress";
+
+import Modal from "./modal";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
+
+const ModalWrapper = () => {
+  const modal = useSelector(selectModal);
+
+  return <div>{modal.visible && <Modal>{modal.value}</Modal>}</div>;
+};
 
 export default function Layout({ title, children, ...props }) {
   return (
@@ -17,9 +32,14 @@ export default function Layout({ title, children, ...props }) {
         {/* <link rel='icon' href='/favicon.ico' /> */}
       </Head>
 
-      <Navbar />
-      {children}
-      <Footer />
+      <Provider store={modalStore}>
+        <Navbar />
+        {children}
+        <Footer />
+
+        {/** Global modal */}
+        <ModalWrapper />
+      </Provider>
     </>
   );
 }
