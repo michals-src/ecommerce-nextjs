@@ -11,13 +11,6 @@ import _m_Login from "./login";
 export default function _m_LostPsswd() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    document.body.classList.add("overflow-y-hidden");
-    return () => {
-      document.body.classList.remove("overflow-y-hidden");
-    };
-  }, []);
-
   return (
     <>
       <div>

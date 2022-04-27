@@ -4,8 +4,12 @@ import { removeModal } from "../../slice/modalSlice";
 
 import { XIcon } from "@heroicons/react/outline";
 
+import useBodyClass from "../../hooks/useBodyClass";
+
 export default function Modal({ children, ...props }) {
   const dispatch = useDispatch();
+
+  useBodyClass("overflow-y-hidden");
 
   return (
     <div className='fixed top-0 left-0 z-50 h-full w-full overflow-y-scroll bg-[rgb(0,0,0,.8)] p-4 lg:p-12'>

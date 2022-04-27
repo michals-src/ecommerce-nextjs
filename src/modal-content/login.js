@@ -18,13 +18,6 @@ import _m_Register from "./register";
 export default function _m_Login() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    document.body.classList.add("overflow-y-hidden");
-    return () => {
-      document.body.classList.remove("overflow-y-hidden");
-    };
-  }, []);
-
   return (
     <>
       <div className='flex w-full flex-row flex-wrap'>
