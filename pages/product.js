@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import Layout from "../src/components/layout";
 
@@ -13,32 +14,62 @@ import {
   StarIcon as StarIconSolid,
 } from "@heroicons/react/solid";
 
+import { useDispatch } from "react-redux";
+import { innerModal } from "../src/slice/modalSlice";
+import _m_ProductComments from "../src/modal-content/product-comments";
+
 const Rating = () => {
+
+  const dispatch = useDispatch();
+
   const stars = Array(5).fill("");
   const rate = Math.round(2.1);
+
+  const [starHover, _starHover] = useState(false);
+  const [starHoverID, _starHoverID] = useState(-1);
 
   return (
     <div className='flex flex-row flex-nowrap items-center'>
       <div>
-        <div className='flex flex-row flex-nowrap space-x-1 items-center'>
+        <div className='flex flex-row flex-nowrap items-center' onMouseEnter={() => _starHover(true)} onMouseLeave={() => _starHover(false)}>
           {stars.map((star, key) => {
             return (
               <>
-                {key <= rate && (
-                  <StarIconSolid className='w-6 h-6 text-black' key={key} />
-                )}
-                {key > rate && (
-                  <StarIcon className='w-5 h-5 text-black' key={key} />
-                )}
+                <div className="pr-1" onClick={() => alert(key)} onMouseEnter={() => _starHoverID(key)} onMouseLeave={() => _starHoverID(-1)}>
+                  {
+                    starHover && (
+                      <>
+                        {key <= starHoverID && (
+                          <StarIconSolid className='w-6 h-6 text-black' key={key} />
+                        )}
+                        {key > starHoverID && (
+                          <StarIcon className='w-6 h-6 text-black' key={key} />
+                        )}
+                      </>
+                    )
+                  }
+                  {
+                    !starHover && (
+                      <>
+                        {key <= rate && (
+                          <StarIconSolid className='w-6 h-6 text-black' key={key} />
+                        )}
+                        {key > rate && (
+                          <StarIcon className='w-6 h-6 text-black' key={key} />
+                        )}
+                      </>
+                    )
+                  }
+                </div>
               </>
             );
           })}
         </div>
       </div>
       <div className='ml-4'>
-        <Link href='#' passHref>
-          <a className='text-black hover:underline p-1'>(0)</a>
-        </Link>
+        <button onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}>
+          <span className='text-black hover:underline p-1'>(0)</span>
+        </button>
       </div>
     </div>
   );
@@ -100,12 +131,12 @@ function Product() {
                       </div>
                       <div>
                         <div className='flex flex-row flex-wrap items-center'>
-                          <div className='mr-4'>
+                          <div className='w-full mt-4 2xl:w-auto 2xl:mr-4'>
                             <button className='py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
                               Dodaj do koszyka
                             </button>
                           </div>
-                          <div className='ml-4'>
+                          <div className='w-full mt-4 2xl:w-auto 2xl:ml-4'>
                             <button className='py-3 px-6 uppercase font-bold border-2 border-black'>
                               <div className='flex flex-row flex-nowrap items-center'>
                                 <div className='mr-6'>
