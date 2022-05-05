@@ -19,7 +19,6 @@ import { innerModal } from "../src/slice/modalSlice";
 import _m_ProductComments from "../src/modal-content/product-comments";
 
 const Rating = () => {
-
   const dispatch = useDispatch();
 
   const stars = Array(5).fill("");
@@ -31,35 +30,47 @@ const Rating = () => {
   return (
     <div className='flex flex-row flex-nowrap items-center'>
       <div>
-        <div className='flex flex-row flex-nowrap items-center' onMouseEnter={() => _starHover(true)} onMouseLeave={() => _starHover(false)}>
-          {stars.map((star, key) => {
+        <div
+          className='flex flex-row flex-nowrap items-center'
+          onMouseEnter={() => _starHover(true)}
+          onMouseLeave={() => _starHover(false)}>
+          {stars.map((_, key) => {
             return (
               <>
-                <div className="pr-1" onClick={() => alert(key)} onMouseEnter={() => _starHoverID(key)} onMouseLeave={() => _starHoverID(-1)}>
-                  {
-                    starHover && (
-                      <>
-                        {key <= starHoverID && (
-                          <StarIconSolid className='w-6 h-6 text-black' key={key} />
-                        )}
-                        {key > starHoverID && (
-                          <StarIcon className='w-6 h-6 text-black' key={key} />
-                        )}
-                      </>
-                    )
-                  }
-                  {
-                    !starHover && (
-                      <>
-                        {key <= rate && (
-                          <StarIconSolid className='w-6 h-6 text-black' key={key} />
-                        )}
-                        {key > rate && (
-                          <StarIcon className='w-6 h-6 text-black' key={key} />
-                        )}
-                      </>
-                    )
-                  }
+                <div
+                  className='pr-1'
+                  onClick={() => alert(key)}
+                  onMouseEnter={() => _starHoverID(key)}
+                  onMouseLeave={() => _starHoverID(-1)}>
+                  {starHover && (
+                    <>
+                      {key <= starHoverID && (
+                        <StarIconSolid
+                          className='h-6 w-6 cursor-pointer text-black'
+                          key={key}
+                        />
+                      )}
+                      {key > starHoverID && (
+                        <StarIcon className='h-6 w-6 text-black' key={key} />
+                      )}
+                    </>
+                  )}
+                  {!starHover && (
+                    <>
+                      {key <= rate && (
+                        <StarIconSolid
+                          className='h-6 w-6 cursor-pointer text-black'
+                          key={key}
+                        />
+                      )}
+                      {key > rate && (
+                        <StarIcon
+                          className='h-6 w-6 cursor-pointer text-black text-black'
+                          key={key}
+                        />
+                      )}
+                    </>
+                  )}
                 </div>
               </>
             );
@@ -67,11 +78,31 @@ const Rating = () => {
         </div>
       </div>
       <div className='ml-4'>
-        <button onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}>
-          <span className='text-black hover:underline p-1'>(0)</span>
+        <button
+          onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}>
+          <span className='p-1 text-black hover:underline'>(0)</span>
         </button>
       </div>
     </div>
+  );
+};
+
+const _btn_opinions = () => {
+  const dispatch = useDispatch();
+
+  return (
+    <button
+      onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}
+      className='flex flex-row flex-nowrap items-center p-1 hover:underline'>
+      <div className='mr-1'>
+        <div className='font-bold'>
+          <h5>Wszytkie opinie</h5>
+        </div>
+      </div>
+      <div className='ml-1'>
+        <ArrowNarrowRightIcon className='h-4 w-4' />
+      </div>
+    </button>
   );
 };
 
@@ -85,22 +116,22 @@ function Product() {
           <div className='container mx-auto px-16'>
             <div className='my-32'>
               <div className='flex flex-row flex-wrap '>
-                <div className='w-7/12 pr-16  h-full'>
-                  <div className='flex flex-row flex-wrap -mx-5'>
+                <div className='h-full w-7/12  pr-16'>
+                  <div className='-mx-5 flex flex-row flex-wrap'>
                     <div className='w-1/2 px-5'>
-                      <div className='w-full h-auto'>
+                      <div className='h-auto w-full'>
                         <img src={product.image} alt={product.title} />
                       </div>
                     </div>
                     <div className='w-1/2 px-5'>
-                      <div className='w-full h-auto'>
+                      <div className='h-auto w-full'>
                         <img src={product.image} alt={product.title} />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className='w-5/12 pl-20 h-auto'>
-                  <div className='flex flex-col space-between h-full w-full'>
+                <div className='h-auto w-5/12 pl-20'>
+                  <div className='space-between flex h-full w-full flex-col'>
                     <div className='flex-auto'>
                       <div className='mb-4'>
                         <p className='text-normal'>{product.category}</p>
@@ -117,11 +148,11 @@ function Product() {
                           <div className='mr-8'>
                             <h3>{product.price} zł</h3>
                           </div>
-                          <div className='flex-auto flex items-center'>
-                            <p className='text-lg mr-4'>Ilość</p>
+                          <div className='flex flex-auto items-center'>
+                            <p className='mr-4 text-lg'>Ilość</p>
                             <input
                               type='number'
-                              className='px-3 py-1 border-2 border-black rounded-sm'
+                              className='rounded-sm border-2 border-black px-3 py-1'
                               min='0'
                               max='99'
                               value='0'
@@ -131,16 +162,16 @@ function Product() {
                       </div>
                       <div>
                         <div className='flex flex-row flex-wrap items-center'>
-                          <div className='w-full mt-4 2xl:w-auto 2xl:mr-4'>
-                            <button className='py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                          <div className='mt-4 w-full 2xl:mr-4 2xl:w-auto'>
+                            <button className='border-2 border-black bg-black py-3 px-6 font-bold uppercase text-white'>
                               Dodaj do koszyka
                             </button>
                           </div>
-                          <div className='w-full mt-4 2xl:w-auto 2xl:ml-4'>
-                            <button className='py-3 px-6 uppercase font-bold border-2 border-black'>
+                          <div className='mt-4 w-full 2xl:ml-4 2xl:w-auto'>
+                            <button className='border-2 border-black py-3 px-6 font-bold uppercase'>
                               <div className='flex flex-row flex-nowrap items-center'>
                                 <div className='mr-6'>
-                                  <HeartIcon className='w-4 h-4' />
+                                  <HeartIcon className='h-4 w-4' />
                                 </div>
                                 <div>
                                   <span>Ulubione</span>
@@ -152,18 +183,7 @@ function Product() {
                       </div>
                     </div>
                     <div className='my-8'>
-                      <Link href='#' passHref>
-                        <a className='flex flex-row flex-nowrap items-center p-1 hover:underline'>
-                          <div className='mr-1'>
-                            <div className='font-bold'>
-                              <h5>Wszytkie opinie</h5>
-                            </div>
-                          </div>
-                          <div className='ml-1'>
-                            <ArrowNarrowRightIcon className='w-4 h-4' />
-                          </div>
-                        </a>
-                      </Link>
+                      <_btn_opinions />
                     </div>
                   </div>
                 </div>
