@@ -72,7 +72,7 @@ export default function Home() {
                         <>
                           <li className='mb-32 w-4/12 px-4'>
                             <div className='relative'>
-                              <Link href='/product' passHref>
+                              <Link href={`/product/` + product.id} passHref>
                                 <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
                                   Produkt
                                 </a>
