@@ -1,8 +1,5 @@
 import { useState } from "react";
 import Head from "next/head";
-import Router from "next/router";
-
-import NProgress from "nprogress";
 import classNames from "classnames";
 
 import { Provider } from "react-redux";
@@ -14,10 +11,6 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 
 import Modal from "./modal";
-
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
 
 const ModalWrapper = ({ setActive }) => {
   const modal = useSelector(selectModal);

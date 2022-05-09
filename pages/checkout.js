@@ -3,6 +3,8 @@ import classNames from "classnames";
 
 import products from "../fakeData/products.json";
 
+import { Input } from "../src/components/form";
+
 import {
   HeartIcon,
   ArrowNarrowLeftIcon,
@@ -109,21 +111,16 @@ const Form = () => {
               <div className='mb-3'>
                 <label htmlFor=''>Imię</label>
               </div>
-              <input
-                type='text'
-                className='box-border block w-full rounded-md border border-black py-3 px-5 outline-none hover:bg-gray-100 focus:border-primary focus:bg-primary-100'
+              <Input
                 placeholder='Imię'
+                onChange={e => console.log(e.target.value)}
               />
             </div>
             <div className='p;-4 w-6/12'>
               <div className='mb-3'>
                 <label htmlFor=''>Nazwisko</label>
               </div>
-              <input
-                type='text'
-                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
-                placeholder='Nazwisko'
-              />
+              <Input placeholder='Nazwisko' />
             </div>
           </div>
           <div className='flex flex-row flex-wrap'>
@@ -131,11 +128,7 @@ const Form = () => {
               <div className='mb-3'>
                 <label htmlFor=''>Ulica</label>
               </div>
-              <input
-                type='text'
-                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
-                placeholder='Ulica'
-              />
+              <Input placeholder='Ulica' />
               <div className='mt-3 text-sm'>
                 <p className='text-gray-500'>Np. Piaskowa 3</p>
               </div>
@@ -144,11 +137,7 @@ const Form = () => {
               <div className='mb-3'>
                 <label htmlFor=''>Numer lokalu</label>
               </div>
-              <input
-                type='text'
-                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
-                placeholder='Numer'
-              />
+              <Input placeholder='numer' />
               <div className='mt-3 text-sm'>
                 <p className='text-gray-500'>
                   Numer mieszkania, domu bądź lokalu
@@ -161,21 +150,13 @@ const Form = () => {
               <div className='mb-3'>
                 <label htmlFor=''>Miejscowość</label>
               </div>
-              <input
-                type='text'
-                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
-                placeholder='Miejscowość'
-              />
+              <Input placeholder='Miejscowość' />
             </div>
             <div className='p;-4 w-4/12'>
               <div className='mb-3'>
                 <label htmlFor=''>Kod pocztowy</label>
               </div>
-              <input
-                type='text'
-                className='block w-full rounded-md border border-black py-3 px-5 outline-none'
-                placeholder='Kod pocztowy'
-              />
+              <Input placeholder='Kod pocztowy' />
             </div>
           </div>
           <div className='flex flex-row flex-wrap items-center'>

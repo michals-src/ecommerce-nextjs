@@ -18,6 +18,8 @@ import {
 import { useDispatch } from "react-redux";
 import { innerModal } from "../../slice/modalSlice";
 
+import { Input } from "../form";
+
 import _m_Login from "../../modal-content/login";
 import _m_Register from "../../modal-content/register";
 /**
@@ -30,11 +32,11 @@ import _m_Register from "../../modal-content/register";
  * @returns object
  */
 const useSearch = () => {
-  const [SearchVisible, setSearchVisible] = useState(false);
+  const [SearchVisible, _SearchVisibke] = useState(false);
   const searchInput = useRef(null);
 
   const handleSearchClick = () => {
-    setSearchVisible(!SearchVisible);
+    _SearchVisibke(!SearchVisible);
 
     const bodyClass = "overflow-y-hidden";
 
@@ -47,8 +49,12 @@ const useSearch = () => {
   };
 
   useEffect(() => {
-    if (SearchVisible) return searchInput.current.focus();
-    return searchInput.current.blur();
+    console.log(SearchVisible, searchInput.current);
+    if (SearchVisible) searchInput.current.focus();
+
+    return () => {
+      searchInput.current.blur();
+    };
   }, [SearchVisible]);
 
   return { SearchVisible, handleSearchClick, searchInput };
@@ -78,22 +84,6 @@ const SearchWrapper = ({ handleSearchClick }) => {
  * Search fullscreen window
  */
 const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
-  const [InputValue, setInputValue] = useState("");
-  const [SearchInputFocus, setSearchInputFocus] = useState(false);
-  const classes = classNames({
-    hidden: !visible,
-  });
-
-  const inputClasses = classNames(
-    "flex flex-row flex-nowrap rounded-sm border-2 cursor-text",
-    {
-      "border-primary-800": !SearchInputFocus,
-      "border-primary-500": SearchInputFocus,
-      "shadow-lg": SearchInputFocus,
-      "hover:bg-gray-100": !SearchInputFocus,
-    }
-  );
-
   const variants = {
     closed: {
       opacity: 0,
@@ -130,27 +120,13 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
                 </div>
               </div>
               <div className='my-8'>
-                <div className={inputClasses}>
-                  <div
-                    className='flex items-center justify-center p-4'
-                    onClick={() => {
-                      ref.current.focus();
-                    }}>
-                    <SearchIcon className='h-4 w-4 text-gray-900' />
-                  </div>
-                  <input
-                    ref={ref}
-                    type='text'
-                    name='search-item'
-                    className='w-full bg-transparent px-3 py-4 outline-none'
-                    placeholder='Czego szukasz ?'
-                    autoComplete='off'
-                    onBlur={() => setSearchInputFocus(false)}
-                    onFocus={() => setSearchInputFocus(true)}
-                    value={InputValue}
-                    onChange={e => setInputValue(e.target.value)}
-                  />
-                </div>
+                <Input
+                  ref={ref}
+                  prefix={<SearchIcon className='h-4 w-4 text-gray-900' />}
+                  name='search-item'
+                  placeholder='Czego szukasz ?'
+                  autofocus
+                />
 
                 <div className='mt-10 py-12'>
                   <p className='mb-6 uppercase text-gray-600'>
