@@ -81,4 +81,5 @@ font-family: 'Scada', sans-serif;
       max-width: calc(33% - var(--col-offset));
     }
   }
+
 }
