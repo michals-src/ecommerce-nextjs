@@ -1,0 +1,7 @@
+post http://headlessnext.local/?rest_route=/simple-jwt-login/v1/auth
+Content-Type: "application/json"
+
+{
+    "email": "dev-email@flywheel.local",
+    "password": "admin"
+}

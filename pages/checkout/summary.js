@@ -10,6 +10,8 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 
+import { Input } from "../../src/components/form";
+
 const steps_list = {
   // True -> current
   // False -> active
@@ -42,8 +44,8 @@ const Step = ({ url, num, name, isLast, isActive }) => {
   });
 
   return (
-    <li className='flex flex-row items-center flex-nowrap w-auto flex-auto mr-8'>
-      <div className='w-1/12 mr-3'>
+    <li className='mr-8 flex w-auto flex-auto flex-row flex-nowrap items-center'>
+      <div className='mr-3 w-1/12'>
         <span className={cn_number}>{num}</span>
       </div>
       <div className={cn_label}>
@@ -64,7 +66,7 @@ const Step = ({ url, num, name, isLast, isActive }) => {
 const Steps = () => {
   return (
     <>
-      <ul className='w-full list-none flex flex-row-flex-nowrap p-0 m-0'>
+      <ul className='flex-row-flex-nowrap m-0 flex w-full list-none p-0'>
         {Object.keys(steps_list).map((process, key) => {
           let state = steps_list[process].state;
           let url = steps_list[process].url;
@@ -97,12 +99,12 @@ const Summary_cards = () => {
             <div className='w-10/12'>
               <h4>Dane do dostawy</h4>
             </div>
-            <div className='w-2/12 flex justify-end'>
+            <div className='flex w-2/12 justify-end'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-3'>
-                      <PencilIcon className='w-4 h-4' />
+                      <PencilIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto text-sm'>
                       <span>Zmień</span>
@@ -113,20 +115,20 @@ const Summary_cards = () => {
             </div>
           </div>
         </div>
-        <div className='border border-gray-300 rounded-md p-6 space-y-4'>
-          <div className='flex flex-row flex-wrap pb-3 border-b border-gray-300'>
+        <div className='space-y-4 rounded-md border border-gray-300 p-6'>
+          <div className='flex flex-row flex-wrap border-b border-gray-300 pb-3'>
             <div className='w-8/12 pr-4'>
-              <p className='mb-1 text-gray-400 text-sm'>Imię i nazwisko</p>
+              <p className='mb-1 text-sm text-gray-400'>Imię i nazwisko</p>
               <p>Jan Kowalski</p>
             </div>
           </div>
-          <div className='flex flex-row flex-wrap  pb-3 border-b border-gray-300'>
+          <div className='flex flex-row flex-wrap  border-b border-gray-300 pb-3'>
             <div className='w-8/12 pr-4'>
-              <p className='mb-1 text-gray-400 text-sm'>Ulica</p>
+              <p className='mb-1 text-sm text-gray-400'>Ulica</p>
               <p>Piaskowa 3</p>
             </div>
             <div className='w-4/12 pl-4'>
-              <p className='mb-1 text-gray-400 text-sm'>Numer lok./m./dom</p>
+              <p className='mb-1 text-sm text-gray-400'>Numer lok./m./dom</p>
               <p>7</p>
             </div>
           </div>
@@ -146,12 +148,12 @@ const Summary_cards = () => {
             <div className='w-10/12'>
               <h4>Szczegóły rachunku</h4>
             </div>
-            <div className='w-2/12 flex justify-end'>
+            <div className='flex w-2/12 justify-end'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-3'>
-                      <PencilIcon className='w-4 h-4' />
+                      <PencilIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto text-sm'>
                       <span>Zmień</span>
@@ -162,7 +164,7 @@ const Summary_cards = () => {
             </div>
           </div>
         </div>
-        <div className='border border-gray-300 rounded-md p-6 space-y-4'>
+        <div className='space-y-4 rounded-md border border-gray-300 p-6'>
           <p>Taki jak adres dostawy</p>
         </div>
       </div>
@@ -175,9 +177,9 @@ const Summary_cards = () => {
           </div>
         </div>
         <div>
-          <div className='border-b border-grey-600 p-5'>
+          <div className='border-grey-600 border-b p-5'>
             <div className='flex flex-row flex-nowrap'>
-              <div className='w-1/12 h-auto'>
+              <div className='h-auto w-1/12'>
                 <img
                   className='w-full'
                   src={product.image}
@@ -188,22 +190,22 @@ const Summary_cards = () => {
                 <div className='flex flex-row flex-nowrap'>
                   <div className='w-10/12 pr-1'>
                     <p>{product.title}</p>
-                    <div className='flex flex-row items-center mt-1'>
-                      <p className='text-sm mr-2'>Ilość</p>
+                    <div className='mt-1 flex flex-row items-center'>
+                      <p className='mr-2 text-sm'>Ilość</p>
                       <p>1</p>
                     </div>
                     <div className='flex flex-row items-center'>
-                      <p className='text-sm mr-2'>Waga</p>
+                      <p className='mr-2 text-sm'>Waga</p>
                       <p>1g</p>
                     </div>
                     <div className='mt-4'>
                       <p>{product.price} zł</p>
                     </div>
                   </div>
-                  <div className='w-2/12 pl-1 flex flex-row items-start justify-end'>
-                    <button className='flex flex-row flex-nowrap items-center text-gray-600 hover:underline text-sm'>
+                  <div className='flex w-2/12 flex-row items-start justify-end pl-1'>
+                    <button className='flex flex-row flex-nowrap items-center text-sm text-gray-600 hover:underline'>
                       <div className='mr-2'>
-                        <XIcon className='w-5 h-5' />
+                        <XIcon className='h-5 w-5' />
                       </div>
                     </button>
                   </div>
@@ -226,12 +228,12 @@ const Summary_cards_right = () => {
             <div className='w-10/12'>
               <h4>Dostawa</h4>
             </div>
-            <div className='w-2/12 flex justify-end'>
+            <div className='flex w-2/12 justify-end'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-3'>
-                      <PencilIcon className='w-4 h-4' />
+                      <PencilIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto text-sm'>
                       <span>Zmień</span>
@@ -242,7 +244,7 @@ const Summary_cards_right = () => {
             </div>
           </div>
         </div>
-        <div className='border border-gray-300 rounded-md p-6 space-y-4'>
+        <div className='space-y-4 rounded-md border border-gray-300 p-6'>
           <div className='flex flex-row flex-nowrap'>
             <div className='flex-auto'>
               <div className='mb-1'>
@@ -265,12 +267,12 @@ const Summary_cards_right = () => {
             <div className='w-10/12'>
               <h4>Płatność</h4>
             </div>
-            <div className='w-2/12 flex justify-end'>
+            <div className='flex w-2/12 justify-end'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-3'>
-                      <PencilIcon className='w-4 h-4' />
+                      <PencilIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto text-sm'>
                       <span>Zmień</span>
@@ -281,7 +283,7 @@ const Summary_cards_right = () => {
             </div>
           </div>
         </div>
-        <div className='border border-gray-300 rounded-md p-6 space-y-4'>
+        <div className='space-y-4 rounded-md border border-gray-300 p-6'>
           <div className='flex flex-row flex-nowrap'>
             <div className='flex-auto'>
               <div className='mb-1'>
@@ -294,7 +296,7 @@ const Summary_cards_right = () => {
                 recusandae reprehenderit voluptas ut.
               </p>
             </div>
-            <div className='flex-auto w-4/12 text-right'>
+            <div className='w-4/12 flex-auto text-right'>
               <p>za darmo</p>
             </div>
           </div>
@@ -311,11 +313,7 @@ const Summary_cards_right = () => {
           </div>
         </div>
         <div>
-          <input
-            type='text'
-            className='border border-gray-400 rounded-md outline-none py-3 px-5 w-full block'
-            placeholder='Wpisz kod rabatowy'
-          />
+          <Input placeholder='Wpisz kod rabatory' />
         </div>
       </div>
     </>
@@ -346,18 +344,18 @@ export default function Summary() {
               <h1 className='uppercase'>Sprawdź i złóż zamówienie</h1>
             </div>
             <div className='flex flex-row flex-wrap '>
-              <div className='w-6/12 pr-16 h-auto'>
+              <div className='h-auto w-6/12 pr-16'>
                 <div>
                   {/* Cart product */}
                   <Summary_cards />
                   {/* Cart product */}
                 </div>
               </div>
-              <div className='w-6/12 pl-16 h-auto'>
+              <div className='h-auto w-6/12 pl-16'>
                 <Summary_cards_right />
-                <div className='p-8 h-auto bg-gray-100'>
+                <div className='h-auto bg-gray-100 p-8'>
                   <div className='space-y-4'>
-                    <div className='flex flex-row flex-nowrap space-between'>
+                    <div className='space-between flex flex-row flex-nowrap'>
                       <div className='flex-auto'>
                         <p>Suma produktów</p>
                       </div>
@@ -365,7 +363,7 @@ export default function Summary() {
                         <p>{product.price} zł</p>
                       </div>
                     </div>
-                    <div className='flex flex-row flex-nowrap space-between'>
+                    <div className='space-between flex flex-row flex-nowrap'>
                       <div className='flex-auto'>
                         <p>Dostawa</p>
                       </div>
@@ -374,7 +372,7 @@ export default function Summary() {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-row flex-nowrap space-between mt-4'>
+                  <div className='space-between mt-4 flex flex-row flex-nowrap'>
                     <div className='flex-auto'>
                       <p className='text-lg'>Łącznie (w tym VAT)</p>
                     </div>
@@ -384,13 +382,13 @@ export default function Summary() {
                   </div>
                   <div className='mt-8'>
                     <Link href='/checkout' passHref>
-                      <a className='block w-full text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                      <a className='block w-full border-2 border-black bg-black py-3 px-6 text-sm font-bold uppercase text-white'>
                         <div className='flex w-full flex-row flex-nowrap items-center'>
                           <div className='flex-auto'>
                             <span>Zamawiam i płacę</span>
                           </div>
                           <div className='ml-6'>
-                            <ArrowNarrowRightIcon className='w-6 h-6' />
+                            <ArrowNarrowRightIcon className='h-6 w-6' />
                           </div>
                         </div>
                       </a>
@@ -413,14 +411,14 @@ export default function Summary() {
             </div>
           </div>
         </main>
-        <footer className='mt-32 pb-10 w-full h-auto bg-gray-100'>
-          <div className='border-y bnrder-gray-200 bg-gray-100 py-4'>
+        <footer className='mt-32 h-auto w-full bg-gray-100 pb-10'>
+          <div className='bnrder-gray-200 border-y bg-gray-100 py-4'>
             <div className='container mx-auto px-16'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-6'>
-                      <ArrowNarrowLeftIcon className='w-4 h-4' />
+                      <ArrowNarrowLeftIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto'>
                       <span>Powrót do sklepu</span>
@@ -431,7 +429,7 @@ export default function Summary() {
             </div>
           </div>
           <div className='container mx-auto px-16'>
-            <div className='pt-10 flex flex-row flex-wrap space-x-8'>
+            <div className='flex flex-row flex-wrap space-x-8 pt-10'>
               <Link href='#' passHref>
                 <a className='hover:underline'>Regulamin</a>
               </Link>

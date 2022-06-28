@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 
@@ -5,6 +6,8 @@ import {
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
 } from "@heroicons/react/outline";
+
+import { Thumbnail } from "../../src/components/form";
 
 const steps_list = {
   // True -> current
@@ -38,8 +41,8 @@ const Step = ({ url, num, name, isLast, isActive }) => {
   });
 
   return (
-    <li className='flex flex-row items-center flex-nowrap w-auto flex-auto mr-8'>
-      <div className='w-1/12 mr-3'>
+    <li className='mr-8 flex w-auto flex-auto flex-row flex-nowrap items-center'>
+      <div className='mr-3 w-1/12'>
         <span className={cn_number}>{num}</span>
       </div>
       <div className={cn_label}>
@@ -60,7 +63,7 @@ const Step = ({ url, num, name, isLast, isActive }) => {
 const Steps = () => {
   return (
     <>
-      <ul className='w-full list-none flex flex-row-flex-nowrap p-0 m-0'>
+      <ul className='flex-row-flex-nowrap m-0 flex w-full list-none p-0'>
         {Object.keys(steps_list).map((process, key) => {
           let state = steps_list[process].state;
           let url = steps_list[process].url;
@@ -83,65 +86,63 @@ const Steps = () => {
 };
 
 const Form = () => {
+  const [selectedIndex, _selectedIndex] = useState(0);
+
   return (
     <>
-      <div className='flex flex-col'>
-        <div className='w-full p-8 border-b border-b-gray-400 cursor-pointer'>
-          <div className='flex flex-row flex-nowrap'>
-            <div className='h-auto flex items-center p-3 mr-8'>
-              <div className='w-4 h-4 border-4 border-black rounded-full'></div>
+      <div className='flex flex-col space-y-4'>
+        <Thumbnail
+          key={0}
+          onClick={() => _selectedIndex(0)}
+          selected={selectedIndex === 0 ? true : false}>
+          <div className='flex-auto'>
+            <div className='mb-1'>
+              <h5>Przelewy24 (Szybki przelew online / BLIK)</h5>
             </div>
-            <div className='flex-auto'>
-              <div className='mb-1'>
-                <h5>Przelewy24 (Szybki przelew online / BLIK)</h5>
-              </div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
-                iure, praesentium veritatis a, animi porro debitis in quae
-                assumenda voluptate suscipit sit ipsa vitae quos earum
-                recusandae reprehenderit voluptas ut.
-              </p>
-            </div>
-            <div className='flex-auto w-4/12 text-right'>
-              <p>za darmo</p>
-            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
+              iure, praesentium veritatis a, animi porro debitis in quae
+              assumenda voluptate suscipit sit ipsa vitae quos earum recusandae
+              reprehenderit voluptas ut.
+            </p>
           </div>
-        </div>
-        <div className='w-full p-8 border-b border-b-gray-400 cursor-pointer'>
-          <div className='flex flex-row flex-nowrap'>
-            <div className='h-auto flex items-center p-3 mr-8'>
-              <div className='w-4 h-4 border border-black rounded-full'></div>
-            </div>
-            <div className='flex-auto'>
-              <div className='mb-1'>
-                <h5>Paypal</h5>
-              </div>
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
-                iure, praesentium veritatis.
-              </p>
-            </div>
-            <div className='flex-auto w-4/12 text-right'>
-              <p>za darmo</p>
-            </div>
+          <div className='w-4/12 flex-auto text-right'>
+            <p>za darmo</p>
           </div>
-        </div>
-        <div className='w-full p-8 cursor-pointer'>
-          <div className='flex flex-row flex-nowrap'>
-            <div className='h-auto flex items-center p-3 mr-8'>
-              <div className='w-4 h-4 border border-black rounded-full'></div>
+        </Thumbnail>
+
+        <Thumbnail
+          key={0}
+          onClick={() => _selectedIndex(1)}
+          selected={selectedIndex === 1 ? true : false}>
+          <div className='flex-auto'>
+            <div className='mb-1'>
+              <h5>Paypal</h5>
             </div>
-            <div className='flex-auto'>
-              <div className='mb-1'>
-                <h5>Płatność przy odbiorze</h5>
-              </div>
-              <p>Lorem ipsum dolor sit amet consectetur.</p>
-            </div>
-            <div className='flex-auto w-4/12 text-right'>
-              <p>za darmo</p>
-            </div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi
+              iure, praesentium veritatis.
+            </p>
           </div>
-        </div>
+          <div className='w-4/12 flex-auto text-right'>
+            <p>za darmo</p>
+          </div>
+        </Thumbnail>
+
+        <Thumbnail
+          key={0}
+          onClick={() => _selectedIndex(2)}
+          selected={selectedIndex === 2 ? true : false}>
+          <div className='flex-auto'>
+            <div className='mb-1'>
+              <h5>Płatność przy odbiorze</h5>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+          <div className='w-4/12 flex-auto text-right'>
+            <p>za darmo</p>
+          </div>
+        </Thumbnail>
       </div>
     </>
   );
@@ -166,7 +167,7 @@ export default function Payment() {
           </div>
           <div className='container mx-auto px-16'>
             <div className='flex flex-row flex-wrap '>
-              <div className='w-7/12 pr-16 h-auto'>
+              <div className='h-auto w-7/12 pr-16'>
                 <div className='mb-8 pb-12'>
                   <h1 className='uppercase'>Wybór metody płatności</h1>
                 </div>
@@ -176,7 +177,7 @@ export default function Payment() {
                   {/* Cart product */}
                 </div>
               </div>
-              <div className='w-5/12 p-16 h-auto'>
+              <div className='h-auto w-5/12 p-16'>
                 <div>
                   <div>
                     <div className='mb-4'>
@@ -192,13 +193,13 @@ export default function Payment() {
                     </div>
                     <div className='mt-4'>
                       <Link href='/checkout/summary' passHref>
-                        <a className='block text-sm py-3 px-6 uppercase font-bold border-2 border-black bg-black text-white'>
+                        <a className='block border-2 border-black bg-black py-3 px-6 text-sm font-bold uppercase text-white'>
                           <div className='flex w-full flex-row flex-nowrap items-center'>
                             <div className='flex-auto'>
                               <span>Przejdź do podsumowania</span>
                             </div>
                             <div className='ml-6'>
-                              <ArrowNarrowRightIcon className='w-6 h-6' />
+                              <ArrowNarrowRightIcon className='h-6 w-6' />
                             </div>
                           </div>
                         </a>
@@ -210,14 +211,14 @@ export default function Payment() {
             </div>
           </div>
         </main>
-        <footer className='mt-32 pb-10 w-full h-auto bg-gray-100'>
-          <div className='border-y bnrder-gray-200 bg-gray-100 py-4'>
+        <footer className='mt-32 h-auto w-full bg-gray-100 pb-10'>
+          <div className='bnrder-gray-200 border-y bg-gray-100 py-4'>
             <div className='container mx-auto px-16'>
               <Link href='/' passHref>
                 <a className='block uppercase hover:underline'>
                   <div className='flex w-full flex-row flex-nowrap items-center'>
                     <div className='mr-6'>
-                      <ArrowNarrowLeftIcon className='w-4 h-4' />
+                      <ArrowNarrowLeftIcon className='h-4 w-4' />
                     </div>
                     <div className='flex-auto'>
                       <span>Powrót do sklepu</span>
@@ -228,7 +229,7 @@ export default function Payment() {
             </div>
           </div>
           <div className='container mx-auto px-16'>
-            <div className='pt-10 flex flex-row flex-wrap space-x-8'>
+            <div className='flex flex-row flex-wrap space-x-8 pt-10'>
               <Link href='#' passHref>
                 <a className='hover:underline'>Regulamin</a>
               </Link>

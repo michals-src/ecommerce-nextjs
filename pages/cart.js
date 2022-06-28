@@ -11,6 +11,8 @@ import {
   CashIcon,
 } from "@heroicons/react/outline";
 
+import { Select, NumberInput } from "../src/components/form";
+
 export default function Cart() {
   const product = products[0];
 
@@ -41,12 +43,16 @@ export default function Cart() {
                           <h6 className='text-lg'>{product.title}</h6>
                           <div className='my-2 flex flex-row items-center'>
                             <p className='text-normal mr-4'>Ilość</p>
-                            <input
-                              type='number'
-                              className='rounded-sm border-2 border-black px-3 py-1 text-sm'
-                              min='0'
-                              max='99'
-                              value='0'
+                            <NumberInput min={0} size='sm' />
+                            <Select
+                              min={0}
+                              size='sm'
+                              options={{
+                                100: "Opcja1",
+                                1: "Opcja2",
+                                2: "Opcja3",
+                                3: "Opcja4",
+                              }}
                             />
                           </div>
                           <div className='mt-6 flex flex-row flex-wrap items-center'>

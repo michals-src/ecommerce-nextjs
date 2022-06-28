@@ -14,7 +14,7 @@ const Input = forwardRef((props, ref) => {
     ],
     {
       //Hover
-      "hover:bg-primary-100": !Focused,
+      "hover:ring-1 hover:ring-primary-500": !Focused,
       //Focus
       "bg-white ring-2 ring-primary-300": Focused,
     }

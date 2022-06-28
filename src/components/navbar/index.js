@@ -33,7 +33,6 @@ import _m_Register from "../../modal-content/register";
  */
 const useSearch = () => {
   const [SearchVisible, _SearchVisibke] = useState(false);
-  const searchInput = useRef(null);
 
   const handleSearchClick = () => {
     _SearchVisibke(!SearchVisible);
@@ -48,16 +47,7 @@ const useSearch = () => {
     document.body.classList.remove(bodyClass);
   };
 
-  useEffect(() => {
-    console.log(SearchVisible, searchInput.current);
-    if (SearchVisible) searchInput.current.focus();
-
-    return () => {
-      searchInput.current.blur();
-    };
-  }, [SearchVisible]);
-
-  return { SearchVisible, handleSearchClick, searchInput };
+  return { SearchVisible, handleSearchClick };
 };
 
 const SearchWrapper = ({ handleSearchClick }) => {
@@ -121,11 +111,10 @@ const Search = forwardRef(({ visible, onClose, ...props }, ref) => {
               </div>
               <div className='my-8'>
                 <Input
-                  ref={ref}
                   prefix={<SearchIcon className='h-4 w-4 text-gray-900' />}
                   name='search-item'
                   placeholder='Czego szukasz ?'
-                  autofocus
+                  autocomplete='off'
                 />
 
                 <div className='mt-10 py-12'>
@@ -273,7 +262,7 @@ const DesktopNavigation = () => {
 const Navbar = () => {
   const dispatch = useDispatch();
 
-  const { SearchVisible, handleSearchClick, searchInput } = useSearch();
+  const { SearchVisible, handleSearchClick } = useSearch();
   const [MobileNavbar, setMobileNavbar] = useState(false);
 
   const handleHamburgerClick = () => {
@@ -391,11 +380,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <Search
-        ref={searchInput}
-        visible={SearchVisible}
-        onClose={handleSearchClick}
-      />
+      <Search visible={SearchVisible} onClose={handleSearchClick} />
     </>
   );
 };
