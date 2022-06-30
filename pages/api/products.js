@@ -3,6 +3,8 @@
 //.htaccess
 //SetEnvIf Authorization (.+) HTTPS=on
 
+//https://www.schakko.de/2020/09/05/fixing-http-401-unauthorized-when-calling-woocommerces-rest-api/
+
 export default async function handler(req, res) {
 
   try {
