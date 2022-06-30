@@ -315,7 +315,17 @@ const Navbar = () => {
               {/* Icons */}
               <ul className='relative flex list-none flex-row items-center space-x-4 lg:space-x-6'>
                 <li className='cursor-pointer'>
-                  <button
+                  <Link href='/api/auth/signin'>
+                    <div className='flex flex-row flex-nowrap items-center'>
+                      <span className='mr-2 block'>Zaloguj się</span>
+                      <span className='block'>
+                        <span>
+                          <UserIcon className='h-8 w-8 rounded-full p-1 text-black hover:bg-complement-100 hover:text-black' />
+                        </span>
+                      </span>
+                    </div>
+                  </Link>
+                  {/* <button
                     className='block'
                     onClick={() => dispatch(innerModal(<_m_Login />))}>
                     <div className='flex flex-row flex-nowrap items-center'>
@@ -326,7 +336,7 @@ const Navbar = () => {
                         </span>
                       </span>
                     </div>
-                  </button>
+                  </button> */}
                 </li>
                 <li className='cursor-pointer'>
                   <Link href='#' passHref>

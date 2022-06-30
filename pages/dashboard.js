@@ -1,9 +1,18 @@
-import useSWR from "swr";
+import { useEffect } from 'react';
+import useSWR from 'swr'
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function Dashboard() {
-  const [data, error] = useSWR("api/user", fetcher);
+  const { data, error } = useSWR("api/user", fetcher);
 
-  return <div>dashboard</div>;
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  return (
+    <>
+      <p>Hello World</p>
+    </>
+  )
 }

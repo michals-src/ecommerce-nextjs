@@ -13,8 +13,8 @@ export const authOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: {
-          label: "email",
+        username: {
+          label: "username",
           type: "text",
           placeholder: "dev-email@flywheel.local",
         },
@@ -27,12 +27,13 @@ export const authOptions = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
+        credentials['grant_type'] = "password";
         const res = await fetch(
-          "http://headlessnext.local/?rest_route=/simple-jwt-login/v1/auth",
+          "http://server.local/oauth/token",
           {
             method: "POST",
-            body: JSON.stringify(credentials),
-            headers: { "Content-Type": "application/json" },
+            body: new URLSearchParams(credentials),
+            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": "Basic amU3dHBSazV4RmRBNVJNRTFuZ21jSDdhQXdqUVcyTVhaWHRnT2o1WDpQVXR5bktid0huejRqWG9rT0hEeHdYODNyajFXU2Z0dWRCajVCaWRq" },
           }
         );
         const user = await res.json();
@@ -40,10 +41,10 @@ export const authOptions = {
         // If no error and we have user data, return it
         if (res.ok && user) {
           try {
-            let a = jwt.verify(user.data.jwt, process.env.NEXTAUTH_SECRET, {
-              algorithms: ["HS256"],
-            });
-            return a;
+            // let a = jwt.verify(user.data.jwt, process.env.NEXTAUTH_SECRET, {
+            //   algorithms: ["HS256"],
+            // });
+            return user;
           } catch (err) {
             return null;
           }
@@ -72,7 +73,7 @@ export const authOptions = {
     updateAge: 24 * 60 * 60, // 24 hours
   },
   pages: {
-    //signIn: "/auth/signin",
+    signIn: "/member/login",
     //signOut: "/auth/signout",
     //error: "/auth/error", // Error code passed in query string as ?error=
     verifyRequest: "/auth/verify-request", // (used for check email message)
@@ -82,15 +83,25 @@ export const authOptions = {
     colorScheme: "light",
   },
   callbacks: {
-    async session({ session, token }) {
-      const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET, {
-        algorithm: "HS256",
-      });
-      session.id = token.id;
-      session.token = encodedToken;
-      return Promise.resolve(session);
+    async session({ session, user, token }) {
+      // const encodedToken = jwt.sign(token, process.env.NEXTAUTH_SECRET, {
+      //   algorithm: "HS256",
+      // });
+      // session.id = token.id;
+      // session.token = encodedToken;
+      // return Promise.resolve(session);
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken
+      session.refresh = token.refresh
+      return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+
+      // Persist the OAuth access_token to the token right after signin
+      if (user) {
+        token.accessToken = user.access_token
+        token.refresh = user.refresh_token
+      }
       return token;
     },
   },

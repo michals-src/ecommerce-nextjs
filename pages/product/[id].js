@@ -103,6 +103,19 @@ const _btn_opinions = () => {
   );
 };
 
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
+  const post = await res.json();
+
+  return {
+    props: {
+      post,
+    },
+  };
+}
+
 export default function Product({ post }) {
   const data = post[0];
 
@@ -191,16 +204,4 @@ export default function Product({ post }) {
       </Layout>
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { params } = context;
-  const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
-  const post = await res.json();
-
-  return {
-    props: {
-      post,
-    },
-  };
 }

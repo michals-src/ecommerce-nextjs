@@ -12,23 +12,49 @@ import { innerModal } from "../src/slice/modalSlice";
 
 import Login from "../src/modal-content/login";
 
-const Text = () => <p>lol</p>;
+// const Text = () => <p>lol</p>;
 
-const Abc = () => {
-  const dispatch = useDispatch();
+// const Abc = () => {
+//   const dispatch = useDispatch();
 
-  return (
-    <>
-      <button onClick={() => dispatch(innerModal(<Login />))}>Klik</button>
-    </>
+//   return (
+//     <>
+//       <button onClick={() => dispatch(innerModal(<Login />))}>Klik</button>
+//     </>
+//   );
+// };
+
+export async function getServerSideProps({ req, res }) {
+  // This value is considered fresh for ten seconds (s-maxage=10).
+  // If a request is repeated within the next 10 seconds, the previously
+  // cached value will still be fresh. If the request is repeated before 59 seconds,
+  // the cached value will be stale but still render (stale-while-revalidate=59).
+  //
+  // In the background, a revalidation request will be made to populate the cache
+  // with a fresh value. If you refresh the page, you will see the new value.
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
   );
-};
 
-export default function Home() {
+  const response = await fetch(`http://localhost:3000/api/products`);
+  const products = await response.json();
+
+  return {
+    props: {
+      products,
+    },
+  };
+}
+
+export default function Home({ products }) {
+
+  console.log(products);
+
   return (
     <>
       <Layout>
-        <Abc />
+        {/* <Abc /> */}
         <div id='hero'>
           <div className='container mx-auto px-16'>
             <div className='my-8 py-12'>
@@ -67,36 +93,7 @@ export default function Home() {
               <div className='w-9/12'>
                 <div className='pl-4'>
                   <ul className='m-0 flex list-none flex-row flex-wrap p-0'>
-                    {products.map((product, k) => {
-                      return (
-                        <>
-                          <li className='mb-32 w-4/12 px-4'>
-                            <div className='relative'>
-                              <Link href={`/product/` + product.id} passHref>
-                                <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
-                                  Produkt
-                                </a>
-                              </Link>
-                              <div className='relative h-80 w-full overflow-hidden'>
-                                <img
-                                  className='object-fit'
-                                  src={product.image}
-                                />
-                              </div>
-                            </div>
-                            <div className='mt-8'>
-                              <span className='text-gray-400'>
-                                {product.category}
-                              </span>
-                              <p className='mt-3 mb-1 text-lg'>
-                                {product.title}
-                              </p>
-                              <p className='text-lg'>{product.price} zł</p>
-                            </div>
-                          </li>
-                        </>
-                      );
-                    })}
+                    {/* <Products /> */}
                   </ul>
                 </div>
               </div>
@@ -107,3 +104,38 @@ export default function Home() {
     </>
   );
 }
+
+// const Products = () => {
+//   return (
+//     {products.map((product, k) => {
+//       return (
+//         <>
+//           <li className='mb-32 w-4/12 px-4'>
+//             <div className='relative'>
+//               <Link href={`/product/` + product.id} passHref>
+//                 <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
+//                   Produkt
+//                 </a>
+//               </Link>
+//               <div className='relative h-80 w-full overflow-hidden'>
+//                 <img
+//                   className='object-fit'
+//                   src={product.image}
+//                 />
+//               </div>
+//             </div>
+//             <div className='mt-8'>
+//               <span className='text-gray-400'>
+//                 {product.category}
+//               </span>
+//               <p className='mt-3 mb-1 text-lg'>
+//                 {product.title}
+//               </p>
+//               <p className='text-lg'>{product.price} zł</p>
+//             </div>
+//           </li>
+//         </>
+//       );
+//     })}
+//   )
+// }
