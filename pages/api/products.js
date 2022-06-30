@@ -4,12 +4,12 @@ export default async function handler(req, res) {
 
   try {
     const data = await fetch(
-      "https://server.local/wp-json/wc/v3/products",
+      "http://server.local/wp-json/wc/v3/products",
       {
         method: "GET",
-        headers: { "Content-Type": "application/json", "Authorization": `Basic ${process.env.STORE_CUSTOMER_KEY}:${process.env.STORE_CUSTOMER_SECRET}` },
+        headers: { "Content-Type": "application/json", "Authorization": `Basic Y2tfNjY5MDFjYjRlNGY1N2UwNjBhZWRhMWVlZjMzZTA4Mzc1ZTc4N2M4Mzpjc184ODJmODdmYTE0YzRlOTI2MmE2YjE1MGZkZjFlN2IwNDMzYzQ4NzM3` },
       }
-    );
+    ).then(response => response.json());
 
     console.log(data);
 
