@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../../src/components/layout";
 
 import {
@@ -15,14 +15,18 @@ import { useDispatch } from "react-redux";
 import { innerModal } from "../../src/slice/modalSlice";
 import _m_ProductComments from "../../src/modal-content/product-comments";
 
-const Rating = () => {
+const Rating = ({ count, average }) => {
   const dispatch = useDispatch();
 
   const stars = Array(5).fill("");
-  const rate = Math.round(2.1);
+  const rate = parseFloat(average);
 
   const [starHover, _starHover] = useState(false);
   const [starHoverID, _starHoverID] = useState(-1);
+
+  const onRate = () => {
+
+  }
 
   return (
     <div className='flex flex-row flex-nowrap items-center'>
@@ -31,7 +35,8 @@ const Rating = () => {
           className='flex flex-row flex-nowrap items-center'
           onMouseEnter={() => _starHover(true)}
           onMouseLeave={() => _starHover(false)}>
-          {stars.map((_, key) => {
+          {stars.map((_, star_key) => {
+            const key = star_key + 1;
             return (
               <>
                 <div
@@ -77,7 +82,7 @@ const Rating = () => {
       <div className='ml-4'>
         <button
           onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}>
-          <span className='p-1 text-black hover:underline'>(0)</span>
+          <span className='p-1 text-black hover:underline'>({count})</span>
         </button>
       </div>
     </div>
@@ -105,8 +110,8 @@ const _btn_opinions = () => {
 
 
 export async function getServerSideProps(context) {
-  const { params } = context;
-  const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
+  const { params: { id } } = context;
+  const res = await fetch(`http://localhost:3000/api/products/${id}`);
   const post = await res.json();
 
   return {
@@ -117,7 +122,14 @@ export async function getServerSideProps(context) {
 }
 
 export default function Product({ post }) {
-  const data = post[0];
+
+  const { average_rating, rating_count } = post;
+
+  useEffect(() => {
+    console.log(post);
+  }, [post])
+
+  // const data = post[0];
 
   return (
     <>
@@ -130,33 +142,33 @@ export default function Product({ post }) {
                   <div className='-mx-5 flex flex-row flex-wrap'>
                     <div className='w-1/2 px-5'>
                       <div className='h-auto w-full'>
-                        <img src={data.image} alt={data.title} />
+                        <img src={post.images[0].src} alt={post.name} />
                       </div>
                     </div>
-                    <div className='w-1/2 px-5'>
+                    {/* <div className='w-1/2 px-5'>
                       <div className='h-auto w-full'>
                         <img src={data.image} alt={data.title} />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className='h-auto w-5/12 pl-20'>
                   <div className='space-between flex h-full w-full flex-col'>
                     <div className='flex-auto'>
                       <div className='mb-4'>
-                        <p className='text-normal'>{data.category}</p>
+                        {/* <p className='text-normal'>{data.category}</p> */}
                       </div>
                       <div className='mb-4'>
-                        <Rating />
+                        <Rating average={average_rating} count={rating_count} />
                       </div>
                       <div className='my-8'>
-                        <h3 className='uppercase'>{data.title}</h3>
+                        <h3 className='uppercase'>{post.name}</h3>
                       </div>
-                      <p className='text-lg'>{data.description}</p>
+                      <p className='text-lg'>{post.description.replace(/<[^>]*>?/gm, '')}</p>
                       <div className='mt-32 mb-16'>
                         <div className='flex flex-row flex-wrap items-center'>
                           <div className='mr-8'>
-                            <h3>{data.price} zł</h3>
+                            <h3>{post.price} zł</h3>
                           </div>
                           <div className='flex flex-auto items-center'>
                             <p className='mr-4 text-lg'>Ilość</p>
