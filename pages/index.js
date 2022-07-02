@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { innerModal } from "../src/slice/modalSlice";
 
 import Login from "../src/modal-content/login";
+import { useEffect } from "react";
 
 // const Text = () => <p>lol</p>;
 
@@ -40,6 +41,8 @@ export async function getServerSideProps({ req, res }) {
   const response = await fetch(`http://localhost:3000/api/products`);
   const products = await response.json();
 
+  console.log(products)
+
   return {
     props: {
       products,
@@ -49,7 +52,9 @@ export async function getServerSideProps({ req, res }) {
 
 export default function Home({ products }) {
 
-  console.log(products);
+  useEffect(() => {
+    console.log(products);
+  }, [products])
 
   return (
     <>
@@ -72,7 +77,7 @@ export default function Home({ products }) {
                     {categories.map((cat, k) => {
                       return (
                         <>
-                          <li className='mb-2 uppercase'>
+                          <li key={k} className='mb-2 uppercase'>
                             <Link href='/product' passHref>
                               <a className='block w-full pb-2 text-lg'>
                                 <div className='flex flex-row flex-nowrap items-center'>
@@ -93,7 +98,17 @@ export default function Home({ products }) {
               <div className='w-9/12'>
                 <div className='pl-4'>
                   <ul className='m-0 flex list-none flex-row flex-wrap p-0'>
-                    {/* <Products /> */}
+
+                    {products.map((product, k) => {
+                      return (
+                        <>
+                          <li key={k} className='mb-32 w-4/12 px-4'>
+                            <Product item={product} />
+                          </li>
+                        </>
+                      );
+                    })}
+
                   </ul>
                 </div>
               </div>
@@ -105,37 +120,31 @@ export default function Home({ products }) {
   );
 }
 
-// const Products = () => {
-//   return (
-//     {products.map((product, k) => {
-//       return (
-//         <>
-//           <li className='mb-32 w-4/12 px-4'>
-//             <div className='relative'>
-//               <Link href={`/product/` + product.id} passHref>
-//                 <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
-//                   Produkt
-//                 </a>
-//               </Link>
-//               <div className='relative h-80 w-full overflow-hidden'>
-//                 <img
-//                   className='object-fit'
-//                   src={product.image}
-//                 />
-//               </div>
-//             </div>
-//             <div className='mt-8'>
-//               <span className='text-gray-400'>
-//                 {product.category}
-//               </span>
-//               <p className='mt-3 mb-1 text-lg'>
-//                 {product.title}
-//               </p>
-//               <p className='text-lg'>{product.price} zł</p>
-//             </div>
-//           </li>
-//         </>
-//       );
-//     })}
-//   )
-// }
+const Product = ({ item }) => {
+  return (
+    <>
+      <div className='relative'>
+        <Link href={`/product/` + item.id} passHref>
+          <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
+            {item.name}
+          </a>
+        </Link>
+        <div className='relative h-80 w-full overflow-hidden'>
+          <img
+            className='object-fit'
+            src={item.images[0].src}
+          />
+        </div>
+      </div>
+      <div className='mt-8'>
+        <span className='text-gray-400'>
+
+        </span>
+        <p className='mt-3 mb-1 text-lg'>
+          {item.name}
+        </p>
+        <p className='text-lg'>{item.price} zł</p>
+      </div>
+    </>
+  )
+}
