@@ -35,13 +35,13 @@ export async function getServerSideProps({ req, res }) {
   // with a fresh value. If you refresh the page, you will see the new value.
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
+    'public, s-maxage=30, stale-while-revalidate=59'
   );
 
   const response = await fetch(`http://localhost:3000/api/products`);
   const products = await response.json();
 
-  console.log(products)
+  //console.log(products)
 
   return {
     props: {
@@ -55,6 +55,14 @@ export default function Home({ products }) {
   useEffect(() => {
     console.log(products);
   }, [products])
+
+  if (products === undefined || Object.keys(products).length <= 0) {
+    return (
+      <>
+        <ProductsEmpty />
+      </>
+    )
+  }
 
   return (
     <>
@@ -120,6 +128,14 @@ export default function Home({ products }) {
   );
 }
 
+const ProductsEmpty = () => {
+  return (
+    <>
+      <h5>Nie wczytano produktów</h5>
+    </>
+  )
+}
+
 const Product = ({ item }) => {
   return (
     <>
@@ -132,7 +148,7 @@ const Product = ({ item }) => {
         <div className='relative h-80 w-full overflow-hidden'>
           <img
             className='object-fit'
-            src={item.images[0].src}
+            src={item.images[0].src.replace('https', 'http')}
           />
         </div>
       </div>

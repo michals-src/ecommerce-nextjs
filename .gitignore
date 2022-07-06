@@ -35,4 +35,8 @@ yarn-error.log*
 .vercel
 
 #docker
-/wordpress/
+/server/plugins/woocommerce
+/server/plugins/akismet
+/server/plugins/hello.php
+/server/plugins/index.php
+/server/wordpress/

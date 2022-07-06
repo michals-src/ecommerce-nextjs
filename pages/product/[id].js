@@ -140,9 +140,9 @@ export default function Product({ post }) {
               <div className='flex flex-row flex-wrap '>
                 <div className='h-full w-7/12  pr-16'>
                   <div className='-mx-5 flex flex-row flex-wrap'>
-                    <div className='w-1/2 px-5'>
+                    <div className='w-full px-5'>
                       <div className='h-auto w-full'>
-                        <img src={post.images[0].src} alt={post.name} />
+                        <img src={post.images[0].src.replace('https', 'http')} alt={post.name} />
                       </div>
                     </div>
                     {/* <div className='w-1/2 px-5'>
