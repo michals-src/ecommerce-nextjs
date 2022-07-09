@@ -1,113 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
 import Layout from "../../src/components/layout";
 
+import ProductContext from '../../src/context/ProductContext';
+
+import Rating from '../../src/components/product/single/rating';
+import Actions from '../../src/components/product/single/actions';
+import Reviews from '../../src/components/product/single/reviews'
+
 import {
-  HeartIcon,
-  StarIcon,
-  ArrowNarrowRightIcon,
+  XIcon
 } from "@heroicons/react/outline";
-import {
-  HeartIcon as HeartSolidIcon,
-  StarIcon as StarIconSolid,
-} from "@heroicons/react/solid";
-
-import { useDispatch } from "react-redux";
-import { innerModal } from "../../src/slice/modalSlice";
-import _m_ProductComments from "../../src/modal-content/product-comments";
-
-const Rating = ({ count, average }) => {
-  const dispatch = useDispatch();
-
-  const stars = Array(5).fill("");
-  const rate = parseFloat(average);
-
-  const [starHover, _starHover] = useState(false);
-  const [starHoverID, _starHoverID] = useState(-1);
-
-  const onRate = () => {
-
-  }
-
-  return (
-    <div className='flex flex-row flex-nowrap items-center'>
-      <div>
-        <div
-          className='flex flex-row flex-nowrap items-center'
-          onMouseEnter={() => _starHover(true)}
-          onMouseLeave={() => _starHover(false)}>
-          {stars.map((_, star_key) => {
-            const key = star_key + 1;
-            return (
-              <>
-                <div
-                  className='pr-1'
-                  onClick={() => alert(key)}
-                  onMouseEnter={() => _starHoverID(key)}
-                  onMouseLeave={() => _starHoverID(-1)}>
-                  {starHover && (
-                    <>
-                      {key <= starHoverID && (
-                        <StarIconSolid
-                          className='h-6 w-6 cursor-pointer text-black'
-                          key={key}
-                        />
-                      )}
-                      {key > starHoverID && (
-                        <StarIcon className='h-6 w-6 text-black' key={key} />
-                      )}
-                    </>
-                  )}
-                  {!starHover && (
-                    <>
-                      {key <= rate && (
-                        <StarIconSolid
-                          className='h-6 w-6 cursor-pointer text-black'
-                          key={key}
-                        />
-                      )}
-                      {key > rate && (
-                        <StarIcon
-                          className='h-6 w-6 cursor-pointer text-black text-black'
-                          key={key}
-                        />
-                      )}
-                    </>
-                  )}
-                </div>
-              </>
-            );
-          })}
-        </div>
-      </div>
-      <div className='ml-4'>
-        <button
-          onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}>
-          <span className='p-1 text-black hover:underline'>({count})</span>
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const _btn_opinions = () => {
-  const dispatch = useDispatch();
-
-  return (
-    <button
-      onClick={() => dispatch(innerModal(<_m_ProductComments id={0} />))}
-      className='flex flex-row flex-nowrap items-center p-1 hover:underline'>
-      <div className='mr-1'>
-        <div className='font-bold'>
-          <h5>Wszytkie opinie</h5>
-        </div>
-      </div>
-      <div className='ml-1'>
-        <ArrowNarrowRightIcon className='h-4 w-4' />
-      </div>
-    </button>
-  );
-};
-
 
 export async function getServerSideProps(context) {
   const { params: { id } } = context;
@@ -121,15 +23,101 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Product({ post }) {
+const Product = () => {
 
-  const { average_rating, rating_count } = post;
+  const { product } = useContext(ProductContext);
+  const { average_rating, rating_count } = product;
 
-  useEffect(() => {
-    console.log(post);
-  }, [post])
+  return (
+    <div className='flex flex-row flex-wrap '>
+      <div className='h-full w-7/12  pr-16'>
+        <div className='-mx-5 flex flex-row flex-wrap'>
+          <div className='w-full px-5'>
+            <div className='h-auto w-full'>
+              <img src={product.images[0].src.replace('https', 'http')} alt={product.name} />
+            </div>
+          </div>
+          {/* <div className='w-1/2 px-5'>
+          <div className='h-auto w-full'>
+            <img src={data.image} alt={data.title} />
+          </div>
+        </div> */}
+        </div>
+      </div>
+      <div className='h-auto w-5/12 pl-20'>
+        <div className='space-between flex h-full w-full flex-col'>
+          <div className='flex-auto'>
+            <div className='mb-4'>
+              {/* <p className='text-normal'>{data.category}</p> */}
+            </div>
+            <div className='mb-4'>
+              <Rating average={average_rating} count={rating_count} />
+            </div>
+            <div className='my-8'>
+              <h3 className='uppercase'>{product.name}</h3>
+            </div>
+            <p className='text-lg'>{product.description.replace(/<[^>]*>?/gm, '')}</p>
+            <div className='mt-32 mb-16'>
+              <div className='flex flex-row flex-wrap items-center'>
+                <div className='mr-8'>
+                  <h3>{product.price} zł</h3>
+                </div>
+                <div className='flex flex-auto items-center'>
+                  <p className='mr-4 text-lg'>Ilość</p>
+                  <input
+                    type='number'
+                    className='rounded-sm border-2 border-black px-3 py-1'
+                    min='0'
+                    max='99'
+                    value='0'
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Actions />
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ReviewsPreview = () => {
+  const { product } = useContext(ProductContext);
+
+  return (
+    <>
+      <div className='fixed top-0 left-0 z-50 h-full w-full overflow-y-scroll bg-[rgb(0,0,0,.8)] p-4 lg:p-12'>
+        <div className='relative mx-auto flex h-auto min-h-full max-w-[800px] flex-col overflow-hidden rounded-md bg-white'>
+          <div className='flex h-auto w-full flex-row flex-nowrap items-center justify-end '>
+            <div className='p-3'>
+              <button onClick={() => product.reviewsPreview(false)}>
+                <XIcon className='h-6 w-6' />
+              </button>
+            </div>
+          </div>
+          <Reviews />
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default function index({ post }) {
+
+  // useEffect(() => {
+  //   console.log(post);
+  // }, [post])
 
   // const data = post[0];
+
+  const [reviewsActive, setReviewsActive] = useState(false)
+
+  const data = {
+    product: { ...post, reviewsPreview: setReviewsActive }
+  }
 
   return (
     <>
@@ -137,79 +125,10 @@ export default function Product({ post }) {
         <main id='main' className='my-16'>
           <div className='container mx-auto px-16'>
             <div className='my-32'>
-              <div className='flex flex-row flex-wrap '>
-                <div className='h-full w-7/12  pr-16'>
-                  <div className='-mx-5 flex flex-row flex-wrap'>
-                    <div className='w-full px-5'>
-                      <div className='h-auto w-full'>
-                        <img src={post.images[0].src.replace('https', 'http')} alt={post.name} />
-                      </div>
-                    </div>
-                    {/* <div className='w-1/2 px-5'>
-                      <div className='h-auto w-full'>
-                        <img src={data.image} alt={data.title} />
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
-                <div className='h-auto w-5/12 pl-20'>
-                  <div className='space-between flex h-full w-full flex-col'>
-                    <div className='flex-auto'>
-                      <div className='mb-4'>
-                        {/* <p className='text-normal'>{data.category}</p> */}
-                      </div>
-                      <div className='mb-4'>
-                        <Rating average={average_rating} count={rating_count} />
-                      </div>
-                      <div className='my-8'>
-                        <h3 className='uppercase'>{post.name}</h3>
-                      </div>
-                      <p className='text-lg'>{post.description.replace(/<[^>]*>?/gm, '')}</p>
-                      <div className='mt-32 mb-16'>
-                        <div className='flex flex-row flex-wrap items-center'>
-                          <div className='mr-8'>
-                            <h3>{post.price} zł</h3>
-                          </div>
-                          <div className='flex flex-auto items-center'>
-                            <p className='mr-4 text-lg'>Ilość</p>
-                            <input
-                              type='number'
-                              className='rounded-sm border-2 border-black px-3 py-1'
-                              min='0'
-                              max='99'
-                              value='0'
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className='flex flex-row flex-wrap items-center'>
-                          <div className='mt-4 w-full 2xl:mr-4 2xl:w-auto'>
-                            <button className='border-2 border-black bg-black py-3 px-6 font-bold uppercase text-white'>
-                              Dodaj do koszyka
-                            </button>
-                          </div>
-                          <div className='mt-4 w-full 2xl:ml-4 2xl:w-auto'>
-                            <button className='border-2 border-black py-3 px-6 font-bold uppercase'>
-                              <div className='flex flex-row flex-nowrap items-center'>
-                                <div className='mr-6'>
-                                  <HeartIcon className='h-4 w-4' />
-                                </div>
-                                <div>
-                                  <span>Ulubione</span>
-                                </div>
-                              </div>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className='my-8'>
-                      <_btn_opinions />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProductContext.Provider value={data}>
+                <Product />
+                {reviewsActive && (<ReviewsPreview />)}
+              </ProductContext.Provider>
             </div>
           </div>
         </main>
