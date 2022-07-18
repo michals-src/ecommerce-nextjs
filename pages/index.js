@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import Layout from "../src/components/layout";
 
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
@@ -12,6 +13,7 @@ import { innerModal } from "../src/slice/modalSlice";
 
 import Login from "../src/modal-content/login";
 import { useEffect } from "react";
+
 
 // const Text = () => <p>lol</p>;
 

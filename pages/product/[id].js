@@ -1,4 +1,8 @@
 import { useEffect, useState, useContext } from "react";
+
+import { useQuery, gql } from '@apollo/client';
+import useSWR from 'swr'
+
 import Layout from "../../src/components/layout";
 
 import ProductContext from '../../src/context/ProductContext';
@@ -10,6 +14,16 @@ import Reviews from '../../src/components/product/single/reviews'
 import {
   XIcon
 } from "@heroicons/react/outline";
+
+const GET_LOCATIONS = gql`
+query NewQuery {
+  posts {
+    nodes {
+      title
+    }
+  }
+}
+`;
 
 export async function getServerSideProps(context) {
   const { params: { id } } = context;
@@ -25,6 +39,7 @@ export async function getServerSideProps(context) {
 
 const Product = () => {
 
+  const [product_count, set_product_count] = useState(1);
   const { product } = useContext(ProductContext);
   const { average_rating, rating_count } = product;
 
@@ -67,9 +82,10 @@ const Product = () => {
                   <input
                     type='number'
                     className='rounded-sm border-2 border-black px-3 py-1'
-                    min='0'
+                    min='1'
                     max='99'
-                    value='0'
+                    value={product_count}
+                    onChange={(e) => { set_product_count(e.target.value) }}
                   />
                 </div>
               </div>
@@ -105,6 +121,8 @@ const ReviewsPreview = () => {
   )
 }
 
+const fetcher = (url) => fetch(url).then(res => res.json())
+
 export default function index({ post }) {
 
   // useEffect(() => {
@@ -113,14 +131,32 @@ export default function index({ post }) {
 
   // const data = post[0];
 
+  const { loading, error, dataaa } = useQuery(GET_LOCATIONS);
+
+  useEffect(() => {
+    console.log(dataaa)
+  }, [dataaa])
+
+  const { dataa, err } = useSWR('/api/products', fetcher);
+
   const [reviewsActive, setReviewsActive] = useState(false)
 
   const data = {
     product: { ...post, reviewsPreview: setReviewsActive }
   }
 
+
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+
+
+  return (<><p>ANBC</p></>)
+
   return (
     <>
+      {!dataa && (<p>Ładuje się</p>)}
       <Layout>
         <main id='main' className='my-16'>
           <div className='container mx-auto px-16'>

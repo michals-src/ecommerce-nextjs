@@ -35,6 +35,7 @@ yarn-error.log*
 .vercel
 
 #docker
+/server/plugins/wp-graphql
 /server/plugins/woocommerce
 /server/plugins/akismet
 /server/plugins/hello.php
