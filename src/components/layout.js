@@ -2,9 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import classNames from "classnames";
 
-import { Provider } from "react-redux";
 import { useSelector } from "react-redux";
-import { modalStore } from "../store/modalStore";
 import { selectModal } from "../slice/modalSlice";
 
 import Navbar from "./navbar";
@@ -40,16 +38,14 @@ export default function Layout({ title, children, ...props }) {
         {/* <link rel='icon' href='/favicon.ico' /> */}
       </Head>
 
-      <Provider store={modalStore}>
-        <div className={_global_cn}>
-          <Navbar />
-          {children}
-          <Footer />
-        </div>
+      <div className={_global_cn}>
+        <Navbar />
+        {children}
+        <Footer />
+      </div>
 
-        {/** Global modal */}
-        <ModalWrapper setActive={_is_modal} />
-      </Provider>
+      {/** Global modal */}
+      <ModalWrapper setActive={_is_modal} />
     </>
   );
 }
