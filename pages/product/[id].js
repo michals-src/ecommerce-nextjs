@@ -16,6 +16,8 @@ import { XIcon } from "@heroicons/react/outline";
 import { productGet } from "../../src/slice/productsSlice";
 import { useDispatch } from "react-redux";
 
+import useProduct from '../../src/hooks/product/useProduct'
+
 // const GET_LOCATIONS = gql`
 //   query NewQuery {
 //     posts {
@@ -26,19 +28,20 @@ import { useDispatch } from "react-redux";
 //   }
 // `;
 
-// export async function getServerSideProps(context) {
-//   const {
-//     params: { id },
-//   } = context;
-//   const res = await fetch(`http://localhost:3000/api/products/${id}`);
-//   const post = await res.json();
+export async function getServerSideProps(context) {
+  const {
+    params: { id },
+  } = context;
+  // const res = await fetch(`http://localhost:3000/api/products/${id}`);
+  // const post = await res.json();
 
-//   return {
-//     props: {
-//       post,
-//     },
-//   };
-// }
+  return {
+    props: {
+      // post,
+      slug: id
+    },
+  };
+}
 
 const Product = () => {
   const [product_count, set_product_count] = useState(1);
@@ -46,10 +49,10 @@ const Product = () => {
   const { average_rating, rating_count } = product;
   const categories = product.categories
     ? product.categories
-        .map(category => {
-          return category.name;
-        })
-        .join(" ")
+      .map(category => {
+        return category.name;
+      })
+      .join(" ")
     : "";
 
   console.log(categories);
@@ -150,10 +153,20 @@ export default function Index({ slug }) {
   const disptach = useDispatch();
 
   // const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
+  const [product, set_product] = useState({});
+  const ppp = useProduct(slug)
 
   useEffect(() => {
-    const productID = disptach(productGet(slug));
-    console.log(slug);
+    let product_memo = disptach(productGet(slug));
+
+    if (!product_memo) {
+      // Fetching product via api
+      // product_memo = ...
+    }
+
+    set_product(product_memo)
+    console.log(ppp)
+
   }, []);
 
   return (
@@ -201,12 +214,12 @@ export default function Index({ slug }) {
 //   };
 // }
 
-Index.getInitialProps = async context => {
-  const {
-    query: { id },
-  } = context;
+// Index.getInitialProps = async context => {
+//   const {
+//     query: { id },
+//   } = context;
 
-  return {
-    slug: id,
-  };
-};
+//   return {
+//     slug: id,
+//   };
+// };

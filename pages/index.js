@@ -9,7 +9,7 @@ import products from "../fakeData/products.json";
 const categories = ["Liście", "urządzenia", "akcesoria"];
 
 import { useDispatch } from "react-redux";
-import { productsAdd } from "../src/slice/productsSlice";
+import { productsUpdate } from "../src/slice/productsSlice";
 import { innerModal } from "../src/slice/modalSlice";
 
 import Login from "../src/modal-content/login";
@@ -56,12 +56,18 @@ export default function Home({ products }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const productsIdentyfication = {};
-    products.map(product => {
-      productsIdentyfication[product.slug] = product.id;
-    });
 
-    dispatch(productsAdd(productsIdentyfication));
+    const products_to_memo = {};
+
+    if (products.length > 0) {
+      products.map(product => {
+        products_to_memo[product.slug] = product;
+      });
+    }
+
+    dispatch(productsUpdate(products_to_memo));
+    console.log(products)
+
   }, [products]);
 
   if (products === undefined || Object.keys(products).length <= 0) {
@@ -114,6 +120,12 @@ export default function Home({ products }) {
               <div className='w-9/12'>
                 <div className='pl-4'>
                   <ul className='m-0 flex list-none flex-row flex-wrap p-0'>
+                    {/**
+                     * todo fix
+                     * code: "woocommerce_rest_cannot_view"
+data: {status: 401}
+message: "Sorry, you cannot list resources."
+                     */}
                     {products.map((product, k) => {
                       return (
                         <>

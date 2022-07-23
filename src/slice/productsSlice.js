@@ -3,17 +3,23 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   // Slug : ID w celu znalezienia id pod slug
   products: {},
+  products_slug: {},
+  recommended: {},
   basket: {},
+  wishlist: {}
 };
 
 export const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    productsAdd: (state, action) => {
-      return { ...state, products: action.payload };
+    productsUpdate: (state, action) => {
+      if (action.payload.length <= 0) return state;
+      return { ...state, products: { ...state.products, ...action.payload } };
     },
-
+    productsGet: (state, action) => {
+      return state.products
+    },
     /**
      *
      * @param state
@@ -35,7 +41,7 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { productsAdd, productGet } = productsSlice.actions;
+export const { productsUpdate, productsGet, productGet } = productsSlice.actions;
 export const selectProducts = state => state.products;
 
 export default productsSlice.reducer;

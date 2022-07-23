@@ -3,13 +3,13 @@ version: '3.1'
 services:
 
   wp:
-   #build: 
+    #build: 
     #  context: ./server
     #  dockerfile: wordpress.dockerfile
     image: cameolon/server:wordpress
     restart: always
     ports:
-      - 80:80
+      - 8080:80
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: exampleuser
@@ -19,7 +19,7 @@ services:
         define('FS_METHOD','direct');
     volumes:
       #- /var/www/html/wp-content/plugins:./server/plugins
-      #- ./server/plugins:/var/www/html/wp-content/plugins
+      - ./server/plugins:/var/www/html/wp-content/plugins
       - wp:/var/www/html
       - ./server/plugins/oauth2-provider:/var/www/html/wp-content/plugins/oauth2-provider
     #command: chown -Rf cameolon:cameolon /var/www/html/wp-content && chmod -R a=r,u+w,a+X /var/www/html/wp-content
@@ -34,17 +34,17 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
-  
+
   phpmyadmin:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - 8001:80
 
 volumes:
   wp:
   db:
-#  wordpress:
-#  db_data: {}
-#  wordpress_data:
-#    driver: local
+    #  wordpress:
+    #  db_data: {}
+    #  wordpress_data:
+    #    driver: local
