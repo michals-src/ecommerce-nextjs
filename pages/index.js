@@ -9,11 +9,11 @@ import products from "../fakeData/products.json";
 const categories = ["Liście", "urządzenia", "akcesoria"];
 
 import { useDispatch } from "react-redux";
+import { productsAdd } from "../src/slice/productsSlice";
 import { innerModal } from "../src/slice/modalSlice";
 
 import Login from "../src/modal-content/login";
 import { useEffect } from "react";
-
 
 // const Text = () => <p>lol</p>;
 
@@ -36,8 +36,8 @@ export async function getServerSideProps({ req, res }) {
   // In the background, a revalidation request will be made to populate the cache
   // with a fresh value. If you refresh the page, you will see the new value.
   res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=30, stale-while-revalidate=59'
+    "Cache-Control",
+    "public, s-maxage=30, stale-while-revalidate=59"
   );
 
   const response = await fetch(`http://localhost:3000/api/products`);
@@ -53,17 +53,23 @@ export async function getServerSideProps({ req, res }) {
 }
 
 export default function Home({ products }) {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(products);
-  }, [products])
+    const productsIdentyfication = {};
+    products.map(product => {
+      productsIdentyfication[product.slug] = product.id;
+    });
+
+    dispatch(productsAdd(productsIdentyfication));
+  }, [products]);
 
   if (products === undefined || Object.keys(products).length <= 0) {
     return (
       <>
         <ProductsEmpty />
       </>
-    )
+    );
   }
 
   return (
@@ -108,7 +114,6 @@ export default function Home({ products }) {
               <div className='w-9/12'>
                 <div className='pl-4'>
                   <ul className='m-0 flex list-none flex-row flex-wrap p-0'>
-
                     {products.map((product, k) => {
                       return (
                         <>
@@ -118,7 +123,6 @@ export default function Home({ products }) {
                         </>
                       );
                     })}
-
                   </ul>
                 </div>
               </div>
@@ -135,14 +139,14 @@ const ProductsEmpty = () => {
     <>
       <h5>Nie wczytano produktów</h5>
     </>
-  )
-}
+  );
+};
 
 const Product = ({ item }) => {
   return (
     <>
       <div className='relative'>
-        <Link href={`/product/` + item.id} passHref>
+        <Link href={`/product/` + item.slug} passHref>
           <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
             {item.name}
           </a>
@@ -150,19 +154,15 @@ const Product = ({ item }) => {
         <div className='relative h-80 w-full overflow-hidden'>
           <img
             className='object-fit'
-            src={item.images[0].src.replace('https', 'http')}
+            src={item.images[0].src.replace("https", "http")}
           />
         </div>
       </div>
       <div className='mt-8'>
-        <span className='text-gray-400'>
-
-        </span>
-        <p className='mt-3 mb-1 text-lg'>
-          {item.name}
-        </p>
+        <span className='text-gray-400'></span>
+        <p className='mt-3 mb-1 text-lg'>{item.name}</p>
         <p className='text-lg'>{item.price} zł</p>
       </div>
     </>
-  )
-}
+  );
+};

@@ -1,55 +1,69 @@
 import { useEffect, useState, useContext } from "react";
 
-import { useQuery, gql } from '@apollo/client';
-import useSWR from 'swr'
+import { useQuery, gql } from "@apollo/client";
+import useSWR from "swr";
 
 import Layout from "../../src/components/layout";
 
-import ProductContext from '../../src/context/ProductContext';
+import ProductContext from "../../src/context/ProductContext";
 
-import Rating from '../../src/components/product/single/rating';
-import Actions from '../../src/components/product/single/actions';
-import Reviews from '../../src/components/product/single/reviews'
+import Rating from "../../src/components/product/single/rating";
+import Actions from "../../src/components/product/single/actions";
+import Reviews from "../../src/components/product/single/reviews";
 
-import {
-  XIcon
-} from "@heroicons/react/outline";
+import { XIcon } from "@heroicons/react/outline";
 
-const GET_LOCATIONS = gql`
-query NewQuery {
-  posts {
-    nodes {
-      title
-    }
-  }
-}
-`;
+import { productGet } from "../../src/slice/productsSlice";
+import { useDispatch } from "react-redux";
 
-export async function getServerSideProps(context) {
-  const { params: { id } } = context;
-  const res = await fetch(`http://localhost:3000/api/products/${id}`);
-  const post = await res.json();
+// const GET_LOCATIONS = gql`
+//   query NewQuery {
+//     posts {
+//       nodes {
+//         title
+//       }
+//     }
+//   }
+// `;
 
-  return {
-    props: {
-      post,
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   const {
+//     params: { id },
+//   } = context;
+//   const res = await fetch(`http://localhost:3000/api/products/${id}`);
+//   const post = await res.json();
+
+//   return {
+//     props: {
+//       post,
+//     },
+//   };
+// }
 
 const Product = () => {
-
   const [product_count, set_product_count] = useState(1);
   const { product } = useContext(ProductContext);
   const { average_rating, rating_count } = product;
+  const categories = product.categories
+    ? product.categories
+        .map(category => {
+          return category.name;
+        })
+        .join(" ")
+    : "";
+
+  console.log(categories);
 
   return (
     <div className='flex flex-row flex-wrap '>
-      <div className='h-full w-7/12  pr-16'>
+      <div className='h-full w-6/12  pr-16'>
         <div className='-mx-5 flex flex-row flex-wrap'>
           <div className='w-full px-5'>
             <div className='h-auto w-full'>
-              <img src={product.images[0].src.replace('https', 'http')} alt={product.name} />
+              <img
+                src={product.images[0].src.replace("https", "http")}
+                alt={product.name}
+              />
             </div>
           </div>
           {/* <div className='w-1/2 px-5'>
@@ -59,11 +73,11 @@ const Product = () => {
         </div> */}
         </div>
       </div>
-      <div className='h-auto w-5/12 pl-20'>
+      <div className='h-auto w-6/12 pl-32'>
         <div className='space-between flex h-full w-full flex-col'>
           <div className='flex-auto'>
             <div className='mb-4'>
-              {/* <p className='text-normal'>{data.category}</p> */}
+              <p className='text-normal'>{categories}</p>
             </div>
             <div className='mb-4'>
               <Rating average={average_rating} count={rating_count} />
@@ -71,7 +85,9 @@ const Product = () => {
             <div className='my-8'>
               <h3 className='uppercase'>{product.name}</h3>
             </div>
-            <p className='text-lg'>{product.description.replace(/<[^>]*>?/gm, '')}</p>
+            <p className='text-lg'>
+              {product.description.replace(/<[^>]*>?/gm, "")}
+            </p>
             <div className='mt-32 mb-16'>
               <div className='flex flex-row flex-wrap items-center'>
                 <div className='mr-8'>
@@ -85,7 +101,9 @@ const Product = () => {
                     min='1'
                     max='99'
                     value={product_count}
-                    onChange={(e) => { set_product_count(e.target.value) }}
+                    onChange={e => {
+                      set_product_count(e.target.value);
+                    }}
                   />
                 </div>
               </div>
@@ -93,12 +111,11 @@ const Product = () => {
           </div>
 
           <Actions />
-
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const ReviewsPreview = () => {
   const { product } = useContext(ProductContext);
@@ -118,52 +135,49 @@ const ReviewsPreview = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-const fetcher = (url) => fetch(url).then(res => res.json())
+const fetcher = url => fetch(url).then(res => res.json());
 
-export default function index({ post }) {
-
+export default function Index({ slug }) {
   // useEffect(() => {
   //   console.log(post);
   // }, [post])
 
   // const data = post[0];
 
-  const { loading, error, dataaa } = useQuery(GET_LOCATIONS);
+  const disptach = useDispatch();
+
+  // const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
 
   useEffect(() => {
-    console.log(dataaa)
-  }, [dataaa])
-
-  const { dataa, err } = useSWR('/api/products', fetcher);
-
-  const [reviewsActive, setReviewsActive] = useState(false)
-
-  const data = {
-    product: { ...post, reviewsPreview: setReviewsActive }
-  }
-
-
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-
-
-  return (<><p>ANBC</p></>)
+    const productID = disptach(productGet(slug));
+    console.log(slug);
+  }, []);
 
   return (
     <>
-      {!dataa && (<p>Ładuje się</p>)}
+      <p>ABC</p>
+    </>
+  );
+
+  const [reviewsActive, setReviewsActive] = useState(false);
+
+  const data = {
+    product: { ...post, reviewsPreview: setReviewsActive },
+  };
+
+  return (
+    <>
+      {dataa == "undefined" && <p>Ładuje się</p>}
       <Layout>
         <main id='main' className='my-16'>
           <div className='container mx-auto px-16'>
             <div className='my-32'>
               <ProductContext.Provider value={data}>
                 <Product />
-                {reviewsActive && (<ReviewsPreview />)}
+                {reviewsActive && <ReviewsPreview />}
               </ProductContext.Provider>
             </div>
           </div>
@@ -172,3 +186,27 @@ export default function index({ post }) {
     </>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const {
+//     params: { id },
+//   } = context;
+//   const res = await fetch(`http://localhost:3000/api/products/${id}`);
+//   const post = await res.json();
+
+//   return {
+//     props: {
+//       post,
+//     },
+//   };
+// }
+
+Index.getInitialProps = async context => {
+  const {
+    query: { id },
+  } = context;
+
+  return {
+    slug: id,
+  };
+};
