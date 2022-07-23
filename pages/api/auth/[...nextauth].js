@@ -1,5 +1,9 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import Utf8 from "crypto-js/enc-utf8";
+import Base64 from "crypto-js/enc-base64";
+
 import jwt from "jsonwebtoken";
 
 // https://next-auth.js.org/configuration/options
@@ -27,15 +31,19 @@ export const authOptions = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        credentials['grant_type'] = "password";
-        const res = await fetch(
-          "http://server.local/oauth/token",
-          {
-            method: "POST",
-            body: new URLSearchParams(credentials),
-            headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization": "Basic amU3dHBSazV4RmRBNVJNRTFuZ21jSDdhQXdqUVcyTVhaWHRnT2o1WDpQVXR5bktid0huejRqWG9rT0hEeHdYODNyajFXU2Z0dWRCajVCaWRq" },
-          }
-        );
+        credentials["grant_type"] = "password";
+
+        const cred = `${process.env.NEXTAUTH_CLIENT}:${process.env.NEXTAUTH_SECRET}`;
+        const hash = Base64.stringify(Utf8.parse(cred));
+
+        const res = await fetch(`${process.env.STORE_URL}/oauth/token`, {
+          method: "POST",
+          body: new URLSearchParams(credentials),
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Basic ${hash}`,
+          },
+        });
         const user = await res.json();
 
         // If no error and we have user data, return it
@@ -91,16 +99,15 @@ export const authOptions = {
       // session.token = encodedToken;
       // return Promise.resolve(session);
       // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken
-      session.refresh = token.refresh
-      return session
+      session.accessToken = token.accessToken;
+      session.refresh = token.refresh;
+      return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
-
       // Persist the OAuth access_token to the token right after signin
       if (user) {
-        token.accessToken = user.access_token
-        token.refresh = user.refresh_token
+        token.accessToken = user.access_token;
+        token.refresh = user.refresh_token;
       }
       return token;
     },
