@@ -1,18 +1,29 @@
 import { useContext, useEffect, useState } from "react";
-import Hashids from "hashids";
-import useSWR from "swr";
+
+import Layout from "../../src/components/layout";
+
+import ProductContext from "../../src/context/ProductContext";
+
+import Actions from "../../src/components/product/single/actions";
+import Rating from "../../src/components/product/single/rating";
+import Reviews from "../../src/components/product/single/reviews";
+
+import { XIcon } from "@heroicons/react/outline";
 
 import { useDispatch } from "react-redux";
 import { productGet } from "../../src/slice/productsSlice";
 
 import useProduct from "../../src/hooks/product/useProduct";
 
-import ProductContext from "../../src/context/ProductContext";
-import Layout from "../../src/components/layout";
-import Actions from "../../src/components/product/single/actions";
-import Rating from "../../src/components/product/single/rating";
-import Reviews from "../../src/components/product/single/reviews";
-import { XIcon } from "@heroicons/react/outline";
+// const GET_LOCATIONS = gql`
+//   query NewQuery {
+//     posts {
+//       nodes {
+//         title
+//       }
+//     }
+//   }
+// `;
 
 export async function getServerSideProps(context) {
   const {
@@ -130,50 +141,53 @@ const ReviewsPreview = () => {
 const fetcher = url => fetch(url).then(res => res.json());
 
 export default function Index({ slug }) {
+  // useEffect(() => {
+  //   console.log(post);
+  // }, [post])
+
+  // const data = post[0];
+
   const disptach = useDispatch();
 
-  const hashids = new Hashids("", 8);
-  const id_from_slug = hashids.decode(slug.split("-").slice(-1)[0]);
-
-  //const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
-
+  // const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
   const [product, set_product] = useState({});
   const ppp = useProduct(slug);
 
   useEffect(() => {
     let product_memo = disptach(productGet(slug));
-    console.log(ppp);
+
     if (!product_memo) {
       // Fetching product via api
       // product_memo = ...
-      const fetchData = async () => {
-        return await fetcher(`/api/products/${id_from_slug}`);
-      };
-
-      console.log(fetchData(), "abc");
     }
 
     set_product(product_memo);
-    console.log();
+    console.log(ppp);
   }, []);
-
-  const [reviewsActive, setReviewsActive] = useState(false);
-
-  // const data = {
-  //   product: { ...post, reviewsPreview: setReviewsActive },
-  // };
 
   return (
     <>
-      {/* {dataa == "undefined" && <p>Ładuje się</p>} */}
+      <p>ABC</p>
+    </>
+  );
+
+  const [reviewsActive, setReviewsActive] = useState(false);
+
+  const data = {
+    product: { ...post, reviewsPreview: setReviewsActive },
+  };
+
+  return (
+    <>
+      {dataa == "undefined" && <p>Ładuje się</p>}
       <Layout>
         <main id='main' className='my-16'>
           <div className='container mx-auto px-16'>
             <div className='my-32'>
-              {/* <ProductContext.Provider value={data}>
+              <ProductContext.Provider value={data}>
                 <Product />
                 {reviewsActive && <ReviewsPreview />}
-              </ProductContext.Provider> */}
+              </ProductContext.Provider>
             </div>
           </div>
         </main>
@@ -181,3 +195,27 @@ export default function Index({ slug }) {
     </>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   const {
+//     params: { id },
+//   } = context;
+//   const res = await fetch(`http://localhost:3000/api/products/${id}`);
+//   const post = await res.json();
+
+//   return {
+//     props: {
+//       post,
+//     },
+//   };
+// }
+
+// Index.getInitialProps = async context => {
+//   const {
+//     query: { id },
+//   } = context;
+
+//   return {
+//     slug: id,
+//   };
+// };

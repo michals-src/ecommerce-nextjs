@@ -3,10 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   // Slug : ID w celu znalezienia id pod slug
   products: {},
-  products_slug: {},
-  recommended: {},
+  //products_slug: {},
+  //recommended: {},
   basket: {},
-  wishlist: {}
+  wishlist: {},
 };
 
 export const productsSlice = createSlice({
@@ -18,7 +18,7 @@ export const productsSlice = createSlice({
       return { ...state, products: { ...state.products, ...action.payload } };
     },
     productsGet: (state, action) => {
-      return state.products
+      return state.products;
     },
     /**
      *
@@ -41,7 +41,8 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { productsUpdate, productsGet, productGet } = productsSlice.actions;
+export const { productsUpdate, productsGet, productGet } =
+  productsSlice.actions;
 export const selectProducts = state => state.products;
 
 export default productsSlice.reducer;

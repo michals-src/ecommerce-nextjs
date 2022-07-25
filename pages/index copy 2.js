@@ -1,16 +1,40 @@
-import { useEffect } from "react";
 import Link from "next/link";
-import Hashids from "hashids";
-
-import { useDispatch } from "react-redux";
-import { productsUpdate } from "../src/slice/productsSlice";
 
 import Layout from "../src/components/layout";
+
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+
+import products from "../fakeData/products.json";
 
 const categories = ["Liście", "urządzenia", "akcesoria"];
 
+import { useDispatch } from "react-redux";
+import { productsUpdate } from "../src/slice/productsSlice";
+import { innerModal } from "../src/slice/modalSlice";
+
+import Login from "../src/modal-content/login";
+import { useEffect } from "react";
+
+// const Text = () => <p>lol</p>;
+
+// const Abc = () => {
+//   const dispatch = useDispatch();
+
+//   return (
+//     <>
+//       <button onClick={() => dispatch(innerModal(<Login />))}>Klik</button>
+//     </>
+//   );
+// };
+
 export async function getServerSideProps({ req, res }) {
+  // This value is considered fresh for ten seconds (s-maxage=10).
+  // If a request is repeated within the next 10 seconds, the previously
+  // cached value will still be fresh. If the request is repeated before 59 seconds,
+  // the cached value will be stale but still render (stale-while-revalidate=59).
+  //
+  // In the background, a revalidation request will be made to populate the cache
+  // with a fresh value. If you refresh the page, you will see the new value.
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=30, stale-while-revalidate=59"
@@ -18,6 +42,8 @@ export async function getServerSideProps({ req, res }) {
 
   const response = await fetch(`http://localhost:3000/api/products`);
   const products = await response.json();
+
+  //console.log(products)
 
   return {
     props: {
@@ -30,6 +56,7 @@ export default function Home({ products }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     const products_to_memo = {};
 
     if (products.length > 0) {
@@ -39,7 +66,8 @@ export default function Home({ products }) {
     }
 
     dispatch(productsUpdate(products_to_memo));
-    console.log(products);
+    console.log(products)
+
   }, [products]);
 
   if (products === undefined || Object.keys(products).length <= 0) {
@@ -127,14 +155,10 @@ const ProductsEmpty = () => {
 };
 
 const Product = ({ item }) => {
-  const hashids = new Hashids("", 8);
-
   return (
     <>
       <div className='relative'>
-        <Link
-          href={`/product/${item.slug}-${item.id}-${hashids.encode(item.id)}`}
-          passHref>
+        <Link href={`/product/` + item.slug} passHref>
           <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
             {item.name}
           </a>
