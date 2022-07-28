@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Hashids from "hashids";
 
-import { useDispatch } from "react-redux";
-import { productsUpdate } from "../src/slice/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { productsUpdate, selectProducts } from "../src/slice/productsSlice";
 
 import Layout from "../src/components/layout";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+
+import useProductFilter from "../src/hooks/product/useProductFilter";
 
 const categories = ["Liście", "urządzenia", "akcesoria"];
 
@@ -34,13 +36,12 @@ export default function Home({ products }) {
 
     if (products.length > 0) {
       products.map(product => {
-        products_to_memo[product.slug] = product;
+        products_to_memo[product.id] = product;
       });
     }
 
     dispatch(productsUpdate(products_to_memo));
-    console.log(products);
-  }, [products]);
+  }, []);
 
   if (products === undefined || Object.keys(products).length <= 0) {
     return (
@@ -127,14 +128,10 @@ const ProductsEmpty = () => {
 };
 
 const Product = ({ item }) => {
-  const hashids = new Hashids("", 8);
-
   return (
     <>
       <div className='relative'>
-        <Link
-          href={`/product/${item.slug}-${item.id}-${hashids.encode(item.id)}`}
-          passHref>
+        <Link href={`/product/${item.slug}-${item.id}`} passHref>
           <a className='absolute top-0 left-0 z-10 h-full w-full text-transparent'>
             {item.name}
           </a>

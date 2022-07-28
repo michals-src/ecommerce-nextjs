@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import Hashids from "hashids";
-import useSWR from "swr";
+//import Hashids from "hashids";
+//import useSWR from "swr";
 
-import { useDispatch } from "react-redux";
-import { productGet } from "../../src/slice/productsSlice";
+//import { useDispatch } from "react-redux";
+//import { productGet } from "../../src/slice/productsSlice";
 
 import useProduct from "../../src/hooks/product/useProduct";
 
@@ -40,8 +40,6 @@ const Product = () => {
         })
         .join(" ")
     : "";
-
-  console.log(categories);
 
   return (
     <div className='flex flex-row flex-wrap '>
@@ -127,34 +125,33 @@ const ReviewsPreview = () => {
   );
 };
 
-const fetcher = url => fetch(url).then(res => res.json());
+//const fetcher = url => fetch(url).then(res => res.json());
 
 export default function Index({ slug }) {
-  const disptach = useDispatch();
+  //const disptach = useDispatch();
 
-  const hashids = new Hashids("", 8);
-  const id_from_slug = hashids.decode(slug.split("-").slice(-1)[0]);
+  //const hashids = new Hashids("", 8);
+  //const id_from_slug = hashids.decode(slug.split("-").slice(-1)[0]);
 
   //const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
+  // const [product, set_product] = useState({});
 
-  const [product, set_product] = useState({});
-  const ppp = useProduct(slug);
+  const { product } = useProduct(slug);
 
   useEffect(() => {
-    let product_memo = disptach(productGet(slug));
-    console.log(ppp);
-    if (!product_memo) {
-      // Fetching product via api
-      // product_memo = ...
-      const fetchData = async () => {
-        return await fetcher(`/api/products/${id_from_slug}`);
-      };
-
-      console.log(fetchData(), "abc");
-    }
-
-    set_product(product_memo);
-    console.log();
+    // let product_memo = disptach(productGet(slug));
+    // console.log(ppp);
+    // if (!product_memo) {
+    //   // Fetching product via api
+    //   // product_memo = ...
+    //   const fetchData = async () => {
+    //     return await fetcher(`/api/products/${id_from_slug}`);
+    //   };
+    //   console.log(fetchData(), "abc");
+    // }
+    // set_product(product_memo);
+    // console.log();
+    console.log(product);
   }, []);
 
   const [reviewsActive, setReviewsActive] = useState(false);
