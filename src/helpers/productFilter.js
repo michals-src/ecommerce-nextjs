@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import Hashids from "hashids";
 
 const productProps = [
-  //  "id",
+  "id",
   "name",
   "slug",
   "permalink",
@@ -51,14 +51,15 @@ const productObjects = {
   images: ["src", "name", "alt"],
 };
 
-const useProductFilter = productData => {
-  const [data, setData] = useState({});
-
+const productFilter = data => {
   const allowedProps = [...productProps, ...Object.keys(productObjects)];
-  const filterData = useCallback(data => {
-    let properties = {};
+  const hashids = new Hashids("", 8);
 
-    for (const [prop, value] of Object.entries(data)) {
+  let _data = [];
+
+  for (const [p_key, p_data] of Object.entries(data)) {
+    let properties = {};
+    for (const [prop, value] of Object.entries(p_data)) {
       if (allowedProps.indexOf(prop) < 0) continue;
       if (Object.keys(productObjects).indexOf(prop) >= 0) {
         const _object = [];
@@ -70,15 +71,20 @@ const useProductFilter = productData => {
           }
           _object.push(_properties);
         }
+
         properties[prop] = _object;
+        continue;
+      }
+      if (prop === "id") {
+        properties[prop] = hashids.encode(value);
         continue;
       }
       properties[prop] = value;
     }
-    return properties;
-  });
+    _data.push(properties);
+  }
 
-  return { productFilter: filterData };
+  return _data;
 };
 
-export default useProductFilter;
+export default productFilter;
