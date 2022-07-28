@@ -15,7 +15,7 @@ export const productsSlice = createSlice({
   reducers: {
     productsUpdate: (state, action) => {
       if (action.payload.length <= 0) return state;
-      return { ...state, products: { ...state.products, ...action.payload } };
+      state.products = { ...state.products, ...action.payload };
     },
     productsGet: (state, action) => {
       return state.products;
