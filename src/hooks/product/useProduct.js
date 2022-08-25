@@ -13,6 +13,8 @@ const useProduct = slug => {
 
   const [_slug, set_slug] = useState(slug);
   const [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(true);
   //const { productFilter } = useProductFilter();
 
   useEffect(() => {
@@ -31,13 +33,24 @@ const useProduct = slug => {
         disptach(productsUpdate(memo));
         setProduct(data);
       };
-      fetchData();
+      fetchData().catch(e => setError(e));
     } else {
-      setProduct(products.products[id_from_slug]);
+      let cachedProduct = products.products[id_from_slug];
+      setProduct(cachedProduct);
     }
-  }, [_slug]);
 
-  return { product, update: set_slug };
+    const loadingHandle = async () => {
+      return new Promise(resolve => {
+        if (product) resolve();
+      });
+    };
+
+    loadingHandle().then(() => {
+      setLoading(false);
+    });
+  }, [slug]);
+
+  return { product, loading };
 };
 
 export default useProduct;

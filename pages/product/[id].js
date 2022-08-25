@@ -136,7 +136,7 @@ export default function Index({ slug }) {
   //const { dataa, err } = useSWR(`/api/products/${productID}`, fetcher);
   // const [product, set_product] = useState({});
 
-  const { product } = useProduct(slug);
+  const { product, loading, error } = useProduct(slug);
 
   useEffect(() => {
     // let product_memo = disptach(productGet(slug));
@@ -151,14 +151,26 @@ export default function Index({ slug }) {
     // }
     // set_product(product_memo);
     // console.log();
-    console.log(product);
-  }, []);
+
+    //console.log(slug);
+
+    console.log(loading);
+  }, [product]);
 
   const [reviewsActive, setReviewsActive] = useState(false);
 
   // const data = {
   //   product: { ...post, reviewsPreview: setReviewsActive },
   // };
+
+  /**
+   * todo:
+   *
+   * skeleton
+   * reviews
+   *    add
+   *    view
+   */
 
   return (
     <>
@@ -167,6 +179,7 @@ export default function Index({ slug }) {
         <main id='main' className='my-16'>
           <div className='container mx-auto px-16'>
             <div className='my-32'>
+              {loading && <h1>Ładowanie</h1>}
               {/* <ProductContext.Provider value={data}>
                 <Product />
                 {reviewsActive && <ReviewsPreview />}
