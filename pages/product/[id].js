@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 //import Hashids from "hashids";
 //import useSWR from "swr";
 
@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 //import { productGet } from "../../src/slice/productsSlice";
 
 import useProduct from "../../src/hooks/product/useProduct";
+import basketActions from "../../src/hooks/basket/basketActions";
 
 import ProductContext from "../../src/context/ProductContext";
 import Layout from "../../src/components/layout";
@@ -30,6 +31,8 @@ export async function getServerSideProps(context) {
 }
 
 const Product = () => {
+  const { addToBasket } = basketActions();
+
   const [product_count, set_product_count] = useState(1);
   const { product } = useContext(ProductContext);
   const { average_rating, rating_count } = product;
@@ -151,17 +154,12 @@ export default function Index({ slug }) {
     // }
     // set_product(product_memo);
     // console.log();
-
     //console.log(slug);
-
-    console.log(loading);
+    // console.log(loading);
+    // console.log(product);
   }, [product]);
 
   const [reviewsActive, setReviewsActive] = useState(false);
-
-  // const data = {
-  //   product: { ...post, reviewsPreview: setReviewsActive },
-  // };
 
   /**
    * todo:
@@ -172,6 +170,21 @@ export default function Index({ slug }) {
    *    view
    */
 
+  const Inner = ({ item }) => {
+    const data = useMemo(() => {
+      return {
+        product: { ...item, reviewsPreview: setReviewsActive },
+      };
+    }, [item]);
+
+    return (
+      <ProductContext.Provider value={data}>
+        <Product />
+        {reviewsActive && <ReviewsPreview />}
+      </ProductContext.Provider>
+    );
+  };
+
   return (
     <>
       {/* {dataa == "undefined" && <p>Ładuje się</p>} */}
@@ -180,10 +193,8 @@ export default function Index({ slug }) {
           <div className='container mx-auto px-16'>
             <div className='my-32'>
               {loading && <h1>Ładowanie</h1>}
-              {/* <ProductContext.Provider value={data}>
-                <Product />
-                {reviewsActive && <ReviewsPreview />}
-              </ProductContext.Provider> */}
+              {error && <h1>{error}</h1>}
+              {!loading && <Inner item={product} />}
             </div>
           </div>
         </main>

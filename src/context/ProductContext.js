@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 const ProductContext = createContext({
-    product: {}
+  product: {},
 });
 
-export default ProductContext
+export default ProductContext;

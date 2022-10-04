@@ -32,17 +32,21 @@ export const productsSlice = createSlice({
 
       return state.products[action];
     },
-    // basketAdd: (state, action) => {
-    //   return { ...state };
-    // },
+    basketAdd: (state, action) => {
+      if (action.payload.length <= 0) return state;
+      state.products = { ...state.products, ...action.payload };
+    },
     // basketRemove: (state, action) => {
     //   return { ...state };
     // },
   },
 });
 
-export const { productsUpdate, productsGet, productGet } =
-  productsSlice.actions;
 export const selectProducts = state => state.products;
+export const selectBasket = state => state.basket;
+export const selectWishlist = state => state.wishlist;
+
+export const { productsUpdate, productsGet, productGet, basketAdd } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;
